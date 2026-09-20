@@ -19,15 +19,15 @@
                     </div>
                 {% endwith %}
                 <div class="project-card-content">
-                    {% if project.date or project.tools.all %}
+                    {% if project.date or project.project_types.all %}
                         <div class="project-card-meta">
                             {% if project.date %}
                                 <span class="date">{{ project.date|date:"F j, Y" }}</span>
                             {% endif %}
-                            {% if project.tools.all %}
-                                <div class="project-tools">
-                                    {% for tool in project.tools.all|slice:":4" %}
-                                        <span>{{ tool.name }}</span>
+                            {% if project.project_types.all %}
+                                <div class="project-types">
+                                    {% for project_type in project.project_types.all %}
+                                        <span>{{ project_type.name }}{% if not forloop.last %} · {% endif %}</span>
                                     {% endfor %}
                                 </div>
                             {% endif %}
@@ -37,10 +37,10 @@
                     {% if project.description %}
                         <p>{{ project.description }}</p>
                     {% endif %}
-                    {% if project.project_types.all %}
-                        <div class="project-types">
-                            {% for project_type in project.project_types.all %}
-                                <span>{{ project_type.name }}{% if not forloop.last %} · {% endif %}</span>
+                    {% if project.tools.all %}
+                        <div class="project-tools">
+                            {% for tool in project.tools.all|slice:":4" %}
+                                <span>{{ tool.name }}</span>
                             {% endfor %}
                         </div>
                     {% endif %}

@@ -1,11 +1,11 @@
 from django.test import TestCase
 
-from porfolio.models import ContactInquiry
 from porfolio.models import (
     ContactInquiry,
     Project,
     ProjectLink,
     ProjectQuote,
+    ProjectsIndexPage,
     ProjectType,
     ProjectVideo,
     Tool,
@@ -48,20 +48,51 @@ class ToolTests(TestCase):
         self.assertEqual(str(tool), "Django")
 
 
+class ProjectsIndexPageTests(TestCase):
+    def test_projects_index_page_creation(self):
+        root_page = ProjectsIndexPage.get_first_root_node()
+
+        index_page = ProjectsIndexPage(
+            title="Projects",
+            slug="projects",
+        )
+
+        root_page.add_child(instance=index_page)
+
+        self.assertIsNotNone(index_page.pk)
+        self.assertEqual(index_page.title, "Projects")
+        self.assertEqual(str(index_page), "Projects")
+
+
 class ProjectTests(TestCase):
+    def setUp(self):
+        root_page = ProjectsIndexPage.get_first_root_node()
+
+        self.projects_index = ProjectsIndexPage(
+            title="Projects",
+            slug="projects",
+        )
+
+        root_page.add_child(instance=self.projects_index)
+
     def test_project_creation(self):
         project = Project(
             title="Test GIS Project",
+            slug="test-gis-project",
             description="A test GIS project.",
             client="Test Client",
             location="Davao",
-            selected=True,
-            featured=True,
+            selected=False,
         )
 
+        self.projects_index.add_child(instance=project)
+
+        self.assertIsNotNone(project.pk)
         self.assertEqual(str(project), "Test GIS Project")
-        self.assertTrue(project.selected)
-        self.assertTrue(project.featured)
+        self.assertEqual(project.title, "Test GIS Project")
+        self.assertEqual(project.client, "Test Client")
+        self.assertEqual(project.location, "Davao")
+        self.assertFalse(project.selected)
 
 
 class ProjectRelatedModelTests(TestCase):
@@ -79,7 +110,10 @@ class ProjectRelatedModelTests(TestCase):
             url="https://example.com/video",
         )
 
-        self.assertEqual(str(video), "https://example.com/video")
+        self.assertEqual(
+            str(video),
+            "https://example.com/video",
+        )
 
     def test_project_link_string(self):
         link = ProjectLink(

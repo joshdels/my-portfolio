@@ -1,6 +1,11 @@
 {% extends "porfolio/base.html" %}
-{% load wagtailcore_tags wagtailimages_tags %}
-{% block title %}{{ page.title }} | Joshdels{% endblock title %}
+{% load static %}
+{% block extra_link %}
+    <link rel="stylesheet" href="{% static 'css/sections/hero.css' %}">
+    <link rel="stylesheet" href="{% static 'css/sections/about.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components/cards.css' %}">
+    <link rel="stylesheet" href="{% static 'css/sections/projects.css' %}">
+{% endblock %}
 {% block content %}
     <div>
         {% include "porfolio/sections/hero.html" %}

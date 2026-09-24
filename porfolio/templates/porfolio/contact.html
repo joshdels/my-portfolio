@@ -1,5 +1,8 @@
 {% extends "porfolio/base.html" %}
-{% block title %}Contact | Joshdels{% endblock title %}
+{% load static %}
+{% block extra_link %}
+    <link rel="stylesheet" href="{% static 'css/sections/contact.css' %}">
+{% endblock %}
 {% block content %}
     <section class="contact">
         <div class="container">
@@ -7,7 +10,7 @@
                 <p class="eyebrow">CONTACT</p>
                 <h1>Let's work together.</h1>
                 <p>
-                    Have a GIS project, spatial workflow, or data problem?
+                    Hiring a geospatial developer, or have a GIS project in mind?
                     Tell me what you're working on.
                 </p>
             </div>

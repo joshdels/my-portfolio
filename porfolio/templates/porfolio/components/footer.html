@@ -1,27 +1,35 @@
-<section class="container footer">
+<footer class="container footer" data-nav-theme="dark">
     <section class="content">
         <div class="headers">
-            <h1>Joshdels</h1>
-            <p>Beyond maps. Reducing manual work. Integrating large-scale spatial data into accurate, reliable, and efficient workflows.</p>
+            <p class="footer-brand">Joshdels</p>
+            <p>
+                Building geospatial data systems, GIS automation, and WebGIS
+                solutions for energy, land, and infrastructure.
+            </p>
         </div>
         <div>
-            <span>Porfolio</span>
+            <span>Portfolio</span>
+            <a href="{{ seo.home }}">Home</a>
+            {% if seo.projects_url %}<a href="{{ seo.projects_url }}">Projects</a>{% endif %}
             <a href="{% url 'contact' %}">Contact</a>
-            <a href="/">Home</a>
-            <a href="/projects/">Projects</a>
         </div>
         <div>
             <span>Connect</span>
             <a target="_blank"
-               href="https://www.linkedin.com/in/joshua-de-leon-8b0310301/">Linkedin</a>
-            <a target="_blank" href="https://github.com/joshdels">Github</a>
-            <a target="_blank" href="https://www.facebook.com/joshua.de.leon.679078">Facebook</a>
+               rel="noopener noreferrer"
+               href="https://www.linkedin.com/in/joshua-de-leon-8b0310301/">LinkedIn</a>
+            <a target="_blank"
+               rel="noopener noreferrer"
+               href="https://github.com/joshdels">GitHub</a>
+            <a target="_blank"
+               rel="noopener noreferrer"
+               href="https://www.facebook.com/joshua.de.leon.679078">Facebook</a>
         </div>
     </section>
     <section class="bottom">
         <p>© {% now "Y" %} Joshdels. All rights reserved.</p>
         <p>
-            Sponsor by <a href="https://topmapsolutions.com/">TopMap Solutions</a>
+            Built by <a href="https://topmapsolutions.com/">TopMap Solutions</a>
         </p>
     </section>
-</section>
+</footer>

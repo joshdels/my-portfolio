@@ -1,52 +1,49 @@
-/* ---------- Header ---------- */
-
-.projects-header {
-  max-width: 900px;
-  margin-bottom: 4rem;
+/* ---------- Project Index ---------- */
+.projects-index {
+  max-width: 1600px;
+  margin-inline: auto;
 }
 
-.projects-header .eyebrow {
-  margin-bottom: 1rem;
+.projects-header {
+  max-width: 850px;
+  margin-bottom: 3rem;
 }
 
 .projects-header h1 {
-  margin: 0;
+  margin: 1rem 0;
 }
 
 .projects-intro {
   max-width: 700px;
-  margin-top: 1.5rem;
-  color: var(--color-text-muted-dark);
   font-size: 1.1rem;
   line-height: 1.7;
 }
 
-
 .project-filter {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem 1.5rem;
-  margin-bottom: 5rem;
+  gap: 0.75rem;
+  padding-bottom: 2rem;
+  margin-bottom: 3rem;
   border-bottom: 1px solid var(--color-border);
 }
 
 .project-filter a {
-  padding-bottom: 0.75rem;
-  color: var(--color-text-muted-dark);
-  font: 0.75rem var(--font-mono);
+  padding: 0.65rem 1rem;
+  border: 1px solid var(--color-border);
   text-decoration: none;
-  text-transform: uppercase;
+  color: var(--color-green-dark);
+  font: 0.8rem/1.5 var(--font-mono);
 }
 
 .project-filter a:hover,
-.project-filter a.active {
-  color: var(--color-text);
+.project-filter a[aria-current] {
+  background: var(--color-green-dark);
+  color: var(--color-text-light);
 }
 
-/* ---------- Project List ---------- */
-
 .projects-list {
-  margin-bottom: 7rem;
+  margin-bottom: 5rem;
 }
 
 .projects-list .section-header {
@@ -54,174 +51,9 @@
 }
 
 .projects-list .section-header h2 {
-  margin: 0;
+  margin: 0.75rem 0;
 }
-
-/* ---------- Project Grid ---------- */
-
-.project-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-}
-
-/* ---------- Project Card ---------- */
-
-.project-card {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  background-color: white;
-  transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
-}
-
-.project-card:hover {
-  transform: translateY(-20px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-}
-
-/* ---------- Project Image ---------- */
-
-.project-card-image {
-  display: block;
-  aspect-ratio: 3 / 2;
-  overflow: hidden;
-  background: var(--color-muted);
-}
-
-.project-card-image img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* ---------- Card Content ---------- */
-
-.project-card-content {
-  padding: 1.25rem;
-}
-
-.project-card-meta {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 0.5rem 1rem;
-  padding-bottom: 1rem;
-  margin-bottom: 1.25rem;
-  border-bottom: 1px solid var(--color-border);
-  font: 0.7rem var(--font-mono);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-
-.project-card-meta span:first-child {
-  color: var(--color-rust);
-}
-
-.project-card-meta span:not(:last-child)::after {
-  content: " · ";
-  color: var(--color-text-muted-dark);
-}
-
-.project-card h2 {
-  margin: 0;
-  font: 600 1.6rem/1.1 var(--font-heading);
-}
-
-.project-card h2 a {
-  color: var(--color-text);
-  text-decoration: none;
-}
-
-.project-card h2 a:hover {
-  color: var(--color-green-dark);
-}
-
-.project-card p {
-  margin: 0.75rem 0 1.25rem;
-  color: var(--color-text-muted-dark);
-  line-height: 1.6;
-}
-
-/* ---------- Tools ---------- */
-
-.project-tools {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem 0.75rem;
-  margin-bottom: 1.5rem;
-  color: var(--color-green-dark);
-  font: 0.75rem var(--font-mono);
-  text-transform: uppercase;
-}
-
-.project-tools span:not(:last-child)::after {
-  content: " · ";
-  color: var(--color-text-muted-dark);
-}
-
-/* ---------- Card Link ---------- */
-
-.project-card-link {
-  color: var(--color-text);
-  font: 0.75rem var(--font-mono);
-  text-decoration: none;
-  text-transform: uppercase;
-}
-
-.project-card-link:hover {
-  color: var(--color-green-dark);
-}
-
-/* ---------- Empty State ---------- */
 
 .empty-state {
-  padding: 5rem 0;
-  border-top: 1px solid var(--color-border);
-}
-
-.empty-state h2 {
-  margin: 0 0 0.75rem;
-}
-
-.empty-state p {
-  margin: 0;
-  color: var(--color-text-muted-dark);
-}
-
-/* ---------- Responsive ---------- */
-
-@media (max-width: 900px) {
-  .project-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .projects-list {
-    margin-bottom: 5rem;
-  }
-}
-
-@media (max-width: 600px) {
-  .projects-header {
-    margin-bottom: 3rem;
-  }
-
-  .project-filter {
-    margin-bottom: 3rem;
-  }
-
-  .project-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .project-card h2 {
-    font-size: 1.4rem;
-  }
-
-  .project-card:hover {
-    transform: translateY(-8px);
-  }
+  padding: 3rem 0;
 }

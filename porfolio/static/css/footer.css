@@ -26,7 +26,7 @@
   flex-direction: column;
 }
 
-.footer .content h1,
+.footer .content .footer-brand,
 .footer .content p,
 .footer .content span {
   margin: 0 0 1rem;
@@ -53,10 +53,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   margin-top: 2rem;
   padding-top: 1rem;
-
   border-top: 1px solid var(--color-text-muted-dark);
   color: var(--color-text-muted);
 }
@@ -75,6 +73,9 @@
   color: var(--color-rust);
 }
 
+.footer .footer-brand {
+  font: 500 3rem/1.1 var(--font-heading);
+}
 
 @media (max-width: 768px) {
   .footer {
@@ -86,7 +87,7 @@
     gap: 2.5rem;
   }
 
-  .footer .content h1 {
+  .footer .content .footer-brand {
     font-size: 2rem;
   }
 

@@ -1,8 +1,13 @@
-<nav>
-    <a class="title" href="/">Joshdels</a>
-    <section>
-        <a href="#">About</a>
-        <a href="/projects">Projects</a>
-        <a class="btn btn-outline-round" href="{% url 'contact' %}">Contact</a>
-    </section>
-</nav>
+<header class="site-header"
+        data-theme="{% if seo.is_home %}dark{% else %}light{% endif %}">
+    <nav class="site-nav" aria-label="Main navigation">
+        <a class="title"
+           href="{{ seo.home }}"
+           aria-label="Joshdels — Joshua De Leon, home">Joshdels</a>
+        <div class="nav-links">
+            <a href="{{ seo.home }}#about" data-section="about">About</a>
+            {% if seo.projects_url %}<a href="{{ seo.projects_url }}" data-section="projects">Projects</a>{% endif %}
+            <a class="btn btn-outline-round" href="{% url 'contact' %}">Contact</a>
+        </div>
+    </nav>
+</header>

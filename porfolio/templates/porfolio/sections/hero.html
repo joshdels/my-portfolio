@@ -1,13 +1,14 @@
-<section id="hero" class="container container-section">
-    <h1>Joshdels</h1>
+<section id="hero" data-nav-theme="dark" class="container container-section">
+    <span class="hero-name">Joshua De Leon / Geospatial Developer</span>
+    <h1>Geospatial Developer for Energy, Land & Infrastructure</h1>
     <p>
-        I build enterprise GIS software that reduces manual spatial work and
-        streamlines complex workflows, helping organizations save time and manage
-        large-scale geospatial data more efficiently.
+        I build spatial data systems, GIS automation, and WebGIS tools that turn
+        complex geospatial data into reliable workflows and decision-ready information.
     </p>
-    <span>GIS · CAD · Software Development · Automation</span>
+    <span>Spatial Data · GIS Automation · WebGIS · Python</span>
     <div class="button-section">
-        <a href="{% url 'contact' %}" class="btn btn-secondary">Contact Me</a>
-        <a href="/projects/" class="btn btn-line-primary">View Projects</a>
+        <a href="{% url 'contact' %}" class="btn btn-secondary">Let's Work Together</a>
+        <a href="{{ seo.projects_url|default:seo.home }}"
+           class="btn btn-line-primary">View Projects</a>
     </div>
 </section>

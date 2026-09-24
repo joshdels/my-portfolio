@@ -1,31 +1,44 @@
 {% load static %}
-<section id="about" class="container container-two-columns">
+<section id="about"
+         data-nav-theme="warm"
+         class="container container-two-columns">
     <div>
         <span>About Me</span>
         <div class="header">
-            <h1>Joshua De Leon</h1>
+            <h2>Joshua De Leon</h2>
             <div class="button-horizontal">
                 <a target="_blank"
-                   href="https://www.linkedin.com/in/joshua-de-leon-8b0310301/">Linkedin</a>
-                <a target="_blank" href="https://github.com/joshdels">Github</a>
+                   rel="noopener noreferrer"
+                   href="https://www.linkedin.com/in/joshua-de-leon-8b0310301/">LinkedIn</a>
                 <a target="_blank"
-                   href="https://docs.google.com/document/d/1cgLC5nZa1zEWc50NGUkG3fRfPHiJ6kymfsaN7GYC6_M/edit?usp=sharing">CV</a>
+                   rel="noopener noreferrer"
+                   href="https://github.com/joshdels">GitHub</a>
+                <a target="_blank"
+                   rel="noopener noreferrer"
+                   href="https://docs.google.com/document/d/1cgLC5nZa1zEWc50NGUkG3fRfPHiJ6kymfsaN7GYC6_M/edit?usp=sharing">
+                    CV
+                </a>
             </div>
         </div>
         <p>
-            I started my GIS journey in 2024, teaching myself QGIS while studying
-            Agricultural Engineering and working in research. Since then, I've
-            expanded into programming, spatial databases, automation, WebGIS, cloud
-            GIS and GeoAI.
+            I'm a geospatial developer focused on energy, land, and infrastructure.
+            I combine GIS and software development to build spatial data pipelines,
+            automation, databases, and WebGIS applications.
         </p>
         <p>
-            Today, I build GIS and software solutions for land, utilities, and
-            infrastructure, turning fragmented geographic data into structured,
-            searchable, and useful systems.
+            My work focuses on turning fragmented and complex geospatial data into
+            structured, reliable systems for analysis and decision-making. I'm
+            currently expanding deeper into energy and utility GIS, particularly
+            infrastructure analysis, land screening, and geospatial data engineering.
         </p>
         <a href="{% url 'contact' %}" class="btn btn-primary">Connect with Me</a>
     </div>
     <div>
-        <img src="{% static 'assets/joshua.jpeg' %}" alt="Joshua De Leon" />
+        <img src="{% static 'assets/joshua.jpeg' %}"
+             alt="Joshua De Leon"
+             width="400"
+             height="400"
+             loading="lazy"
+             decoding="async" />
     </div>
 </section>

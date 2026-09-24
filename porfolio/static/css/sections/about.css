@@ -14,7 +14,7 @@
   font-size: 0.9rem;
 }
 
-#about h1 {
+#about h2 {
   font-size: clamp(2.2rem, 5vw, 3rem);
   line-height: 1.1;
   margin: 0 auto;
@@ -55,7 +55,7 @@
 }
 
 @media (max-width: 768px) {
-  #about h1 {
+  #about h2 {
     font-size: clamp(2rem, 10vw, 2.5rem);
   }
 

@@ -12,7 +12,8 @@
 
 #hero h1 {
   font-family: var(--font-heading);
-  font-size: clamp(4rem, 10vw, 10rem);
+  max-width: 1200px;
+  font-size: clamp(3rem, 10vw, 4rem);
   font-weight: 900;
   color: var(--color-rust);
   margin: 0 auto;
@@ -48,7 +49,7 @@
   }
 
   #hero h1 {
-    font-size: clamp(3.5rem, 18vw, 6rem);
+    font-size: clamp(2.6rem, 11vw, 4rem);
   }
 
   #hero p {
@@ -74,4 +75,12 @@
     max-width: 250px;
     text-align: center;
   }
+}
+
+#hero .hero-name {
+  margin-bottom: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }

@@ -1,15 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,700;1,400;1,700&family=Inter:wght@400;500&display=swap");
-
-@import url("container.css");
-@import url("navbar.css");
-@import url("footer.css");
-@import url("404.css");
-@import url("sections/about.css");
-@import url("sections/contact.css");
-@import url("sections/hero.css");
-@import url("sections/projects.css");
-@import url("components/buttons.css");
-
 :root {
   --color-bg: #eff0ee;
   --color-bg-soft: #d4ddca;
@@ -24,7 +12,6 @@
   --color-text-muted-dark: #2b2a2a;
   --color-text-light: #f5f0eb;
   --color-border: #d4ddca;
-
   --font-heading: "Lora", Georgia, serif;
   --font-body: "Inter", system-ui, sans-serif;
   --font-mono: "Courier New", monospace;
@@ -48,4 +35,83 @@ h1 {
   line-height: 1.1;
   margin: 0 auto;
   font-family: var(--font-heading);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+
+body {
+  overflow-wrap: break-word;
+}
+
+main {
+  min-height: 60vh;
+}
+
+h2 {
+  font: 500 clamp(2rem, 4vw, 3rem)/1.15 var(--font-heading);
+}
+
+a {
+  color: var(--color-green-dark);
+}
+
+:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 5px;
+}
+
+.eyebrow {
+  font: 0.8rem/1.5 var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.skip-link {
+  position: fixed;
+  top: -8rem;
+  left: 1rem;
+  z-index: 100;
+  padding: 1rem;
+  background: white;
+  color: black;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+.home-scroll {
+  scroll-snap-type: y proximity;
+}
+
+.home-scroll [data-nav-theme] {
+  scroll-snap-align: start;
+  scroll-margin-top: 0;
+}
+
+@media (max-width: 768px), (prefers-reduced-motion: reduce) {
+  .home-scroll {
+    scroll-snap-type: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .project-card:hover,
+  .project-card:focus-within {
+    transform: none !important;
+  }
 }

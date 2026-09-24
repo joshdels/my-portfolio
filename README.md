@@ -1,6 +1,6 @@
 # My Portfolio
 
-A personal portfolio built with Django and Wagtail to showcase my projects, technical work, and project history.
+Joshua De Leon’s geospatial developer portfolio, built with Django and Wagtail to showcase spatial data systems, GIS automation, and WebGIS projects.
 
 
 ![Background](public/image.png)
@@ -16,10 +16,11 @@ A personal portfolio built with Django and Wagtail to showcase my projects, tech
 
 ## Features
 
-* Wagtail-managed homepage
+* Wagtail-managed pages and project content
 * Project portfolio and project history
 * Contact inquiry form with email notifications
-* Responsive frontend
+* Responsive frontend with section color themes and shared project cards
+* Page-specific SEO, social previews, structured data, and XML sitemap
 * Dockerized deployment
 * Automated CI/CD with GitHub Actions
 
@@ -29,7 +30,7 @@ The project uses GitHub Actions for automated builds and deployment.
 
 ### Build
 
-Every push and pull request targeting `main` builds the Docker image to verify that the application can be containerized successfully.
+Every push and pull request targeting `main` runs the Django tests in Docker, then builds the application image.
 
 ### Deploy
 
@@ -40,32 +41,42 @@ The deployment:
 1. Updates the server repository to the latest `main`.
 2. Builds the Docker image.
 3. Starts the application with Docker Compose.
-4. Removes unused Docker images, containers, and volumes.
+4. Removes unused Docker images.
 
-The workflows are located in:
+The pipeline is located in:
 
 ```text
 .github/
 └── workflows/
-    ├── build.yml
-    └── deploy.yml
+    └── ci.yml
 ```
 
 ## Documentation
 
 * [Installation](docs/installation.md)
 * [Architecture](docs/architecture.md)
+* [SEO and publishing](docs/seo.md)
 
 ## Development
 
 ```bash
-python manage.py migrate
-python manage.py createsuperuser
-python manage.py runserver
+uv sync --locked
+# First-time database setup only:
+uv run python manage.py migrate
+uv run python manage.py createsuperuser
+uv run python manage.py runserver
 ```
 
 Wagtail admin:
 
 ```text
 http://127.0.0.1:8000/admin/
+```
+
+Local development uses SQLite; production uses PostgreSQL. See the installation guide for environment and Wagtail site setup.
+
+Run the test suite:
+
+```bash
+uv run python manage.py test porfolio --settings=config.settings.test
 ```

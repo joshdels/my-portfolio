@@ -1,9 +1,13 @@
 {% extends "porfolio/base.html" %}
+{% load static %}
+{% block extra_link %}
+    <link rel="stylesheet" href="{% static 'css/404.css' %}">
+{% endblock %}
 {% block content %}
-    <main id="error" class="container container-section">
+    <section id="error" class="container container-section">
         <h1>404</h1>
         <p class="message">Page not found.</p>
         <p class="error-message">The page you're looking for doesn't exist or may have been moved.</p>
         <a href="/" class="btn btn-secondary">Back to homepage</a>
-    </main>
+    </section>
 {% endblock content %}

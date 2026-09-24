@@ -190,7 +190,6 @@
 }
 
 .project-video a,
-.project-links a,
 .project-detail-footer a {
   color: var(--color-text);
   text-decoration: none;
@@ -202,23 +201,8 @@
 }
 
 .project-video a:hover,
-.project-links a:hover,
 .project-detail-footer a:hover {
   color: var(--color-green-dark);
-}
-
-/* ---------- Links ---------- */
-.project-links {
-  display: flex;
-  flex-direction: column;
-}
-
-.project-links a {
-  display: flex;
-  justify-content: space-between;
-  padding: 1.25rem 0;
-  border-bottom: 1px solid var(--color-border);
-  font: 0.8rem var(--font-mono);
 }
 
 /* ---------- Quotes ---------- */
@@ -266,6 +250,7 @@
   .project-quotes {
     grid-template-columns: 1fr;
   }
+
 }
 
 @media (max-width: 600px) {
@@ -312,4 +297,22 @@
     flex-direction: column;
     align-items: flex-start;
   }
+
+}
+
+.project-back {
+  display: inline-block;
+  margin-bottom: 2rem;
+  color: var(--color-green-dark);
+}
+
+.project-primary-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  margin-top: 2rem;
+}
+
+.project-detail-header, .project-content {
+  width: 100%;
 }

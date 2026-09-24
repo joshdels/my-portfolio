@@ -1,10 +1,13 @@
 {% extends "porfolio/base.html" %}
 {% load wagtailcore_tags wagtailimages_tags static %}
-{% block title %}{{ page.title }} | Portfolio{% endblock %}
-{% block meta_description %}{{ page.description }}{% endblock %}
+{% block extra_link %}
+    <link rel="stylesheet"
+          href="{% static 'css/sections/project_detail.css' %}">
+{% endblock %}
 {% block content %}
     <article class="container container-section project-detail">
         <header class="project-detail-header">
+            <a class="project-back" href="{{ seo.projects_url|default:seo.home }}">← All projects</a>
             <div class="project-detail-meta">
                 {% if page.date %}
                     <span class="project-date">{{ page.date|date:"F j, Y" }}</span>
@@ -16,6 +19,14 @@
             <h1>{{ page.title }}</h1>
             {% if page.description %}
                 <p class="project-detail-description">{{ page.description }}</p>
+            {% endif %}
+            {% if page.links.all %}
+                <div class="project-primary-links">
+                    {% for link in page.links.all %}<a class="btn btn-line-black"
+   href="{{ link.url }}"
+   target="_blank"
+   rel="noopener noreferrer">{{ link.title }} ↗</a>{% endfor %}
+                </div>
             {% endif %}
             <div class="project-information">
                 {% if page.client %}
@@ -58,30 +69,42 @@
                 {% endif %}
             </div>
         </header>
-        <!-- ---------- Gallery ---------- -->
-        <section class="project-gallery">
-            {% for item in page.project_images.all %}
-                <figure class="project-image">
-                    {% image item.image width-1600 as project_image %}
-                    <img src="{{ project_image.url }}"
-                         alt="{{ item.caption|default:page.title }}"
-                         loading="lazy">
-                    {% if item.caption %}
-                        <figcaption>{{ item.caption }}</figcaption>
-                    {% endif %}
-                </figure>
-            {% empty %}
-                <figure class="project-image">
-                    <img src="{% static 'assets/placeholder.png' %}" alt="{{ page.title }}">
-                </figure>
-            {% endfor %}
-        </section>
         <!-- ---------- Content ---------- -->
         {% if page.content %}
             <section class="project-content">
                 {{ page.content|richtext }}
             </section>
         {% endif %}
+        <!-- ---------- Gallery ---------- -->
+        <section class="project-gallery">
+            {% for item in page.project_images.all %}
+                <figure class="project-image">
+                    {% image item.image width-1600 as project_image %}
+                    {% image item.image width-800 as small_image %}
+                    <img src="{{ small_image.url }}"
+                         srcset="{{ small_image.url }} {{ small_image.width }}w,
+                                 {{ project_image.url }} {{ project_image.width }}w"
+                         sizes="(max-width: 1400px) 90vw,
+                                1280px"
+                         alt="{{ item.caption|default:page.title }}"
+                         width="{{ project_image.width }}"
+                         height="{{ project_image.height }}"
+                         loading="lazy"
+                         decoding="async">
+                    {% if item.caption %}
+                        <figcaption>{{ item.caption }}</figcaption>
+                    {% endif %}
+                </figure>
+            {% empty %}
+                <figure class="project-image">
+                    <img src="{% static 'assets/placeholder.png' %}"
+                         alt="{{ page.title }}"
+                         width="900"
+                         height="600"
+                         loading="lazy">
+                </figure>
+            {% endfor %}
+        </section>
         <!-- ---------- Videos ---------- -->
         {% if page.videos.all %}
             <section class="project-section">
@@ -97,20 +120,6 @@
                             {% endif %}
                             <a href="{{ video.url }}" target="_blank" rel="noopener noreferrer">Watch Video →</a>
                         </div>
-                    {% endfor %}
-                </div>
-            </section>
-        {% endif %}
-        <!-- ---------- Links ---------- -->
-        {% if page.links.all %}
-            <section class="project-section">
-                <header class="section-header">
-                    <p class="eyebrow">Resources</p>
-                    <h2>Links</h2>
-                </header>
-                <div class="project-links">
-                    {% for link in page.links.all %}
-                        <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer">{{ link.title }} →</a>
                     {% endfor %}
                 </div>
             </section>
@@ -141,7 +150,7 @@
         {% endif %}
         <!-- ---------- Footer ---------- -->
         <footer class="project-detail-footer">
-            <a href="/projects/">← Back to Projects</a>
+            <a href="{{ seo.projects_url|default:seo.home }}">← Back to Projects</a>
         </footer>
     </article>
 {% endblock %}

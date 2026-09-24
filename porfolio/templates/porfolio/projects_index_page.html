@@ -1,149 +1,56 @@
 {% extends "porfolio/base.html" %}
-{% load wagtailcore_tags wagtailimages_tags static %}
-{% block title %}
-    {{ page.title }} | Portfolio
+{% load static wagtailcore_tags %}
+{% block extra_link %}
+    <link rel="stylesheet" href="{% static 'css/components/cards.css' %}">
+    <link rel="stylesheet" href="{% static 'css/sections/project_lists.css' %}">
 {% endblock %}
 {% block content %}
-    <div class="container container-section">
-        <!-- ---------- Header ---------- -->
-        <section class="projects-header">
-            <p class="eyebrow">Portfolio</p>
+    <div class="container projects-index" data-nav-theme="light">
+        <header class="projects-header">
+            <p class="eyebrow">Joshua De Leon / Portfolio</p>
             <h1>{{ page.title }}</h1>
-            {% if page.intro %}
-                <div class="projects-intro">{{ page.intro|richtext }}</div>
-            {% endif %}
-        </section>
-        <!-- ---------- Filter ---------- -->
-        <nav class="project-filter" aria-label="Filter projects">
-            <a href="{{ page.url }}"
-               class="{% if not active_type %}active{% endif %}">All</a>
-            {% for project_type in project_types %}
-                <a href="{{ page.url }}?type={{ project_type.id }}"
-                   class="{% if active_type == project_type.id|stringformat:'s' %}active{% endif %}">
-                    {{ project_type.name }}
-                </a>
-            {% endfor %}
-        </nav>
-        <!-- ---------- Selected Works ---------- -->
-        {% if selected_projects %}
-            <section class="projects-list">
-                <header class="section-header">
-                    <p class="eyebrow">Featured</p>
-                    <h2>Selected Works</h2>
-                </header>
-                <div class="project-grid">
-                    {% for project in selected_projects %}
-                        <article class="project-card">
-                            <!-- ---------- Image ---------- -->
-                            {% with image=project.project_images.first %}
-                                {% if image %}
-                                    {% image image.image fill-1200x800 as project_image %}
-                                    <a href="{{ project.url }}" class="project-card-image">
-                                        <img src="{{ project_image.url }}"
-                                             alt="{{ image.caption|default:project.title }}"
-                                             loading="lazy">
-                                    </a>
-                                {% else %}
-                                    <a href="{{ project.url }}" class="project-card-image">
-                                        <img src="{% static 'assets/placeholder.png' %}"
-                                             alt="{{ project.title }}"
-                                             loading="lazy">
-                                    </a>
-                                {% endif %}
-                            {% endwith %}
-                            <!-- ---------- Content ---------- -->
-                            <div class="project-card-content">
-                                <div class="project-card-meta">
-                                    {% if project.date %}
-                                        <span class="project-date">{{ project.date|date:"F j, Y" }}</span>
-                                    {% endif %}
-                                    {% for project_type in project.project_types.all %}
-                                        <span class="project-type">{{ project_type.name }}</span>
-                                    {% endfor %}
-                                </div>
-                                <h2>
-                                    <a href="{{ project.url }}">{{ project.title }}</a>
-                                </h2>
-                                {% if project.description %}
-                                    <p>{{ project.description }}</p>
-                                {% endif %}
-                                {% if project.tools.all %}
-                                    <div class="project-tools">
-                                        {% for tool in project.tools.all|slice:":4" %}
-                                            <span>{{ tool.name }}</span>
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
-                                <a href="{{ project.url }}" class="project-card-link">View Project →</a>
-                            </div>
-                        </article>
-                    {% endfor %}
-                </div>
-            </section>
-        {% endif %}
-        <!-- ---------- Other Projects ---------- -->
-        {% if projects %}
-            <section class="projects-list">
-                <header class="section-header">
-                    <p class="eyebrow">More Work</p>
-                    <h2>Other Projects</h2>
-                </header>
-                <div class="project-grid">
-                    {% for project in projects %}
-                        <article class="project-card">
-                            <!-- ---------- Image ---------- -->
-                            {% with image=project.project_images.first %}
-                                {% if image %}
-                                    {% image image.image fill-1200x800 as project_image %}
-                                    <a href="{{ project.url }}" class="project-card-image">
-                                        <img src="{{ project_image.url }}"
-                                             alt="{{ image.caption|default:project.title }}"
-                                             loading="lazy">
-                                    </a>
-                                {% else %}
-                                    <a href="{{ project.url }}" class="project-card-image">
-                                        <img src="{% static 'assets/placeholder.png' %}"
-                                             alt="{{ project.title }}"
-                                             loading="lazy">
-                                    </a>
-                                {% endif %}
-                            {% endwith %}
-                            <!-- ---------- Content ---------- -->
-                            <div class="project-card-content">
-                                <div class="project-card-meta">
-                                    {% if project.date %}
-                                        <span class="project-date">{{ project.date|date:"F j, Y" }}</span>
-                                    {% endif %}
-                                    {% for project_type in project.project_types.all %}
-                                        <span class="project-type">{{ project_type.name }}</span>
-                                    {% endfor %}
-                                </div>
-                                <h2>
-                                    <a href="{{ project.url }}">{{ project.title }}</a>
-                                </h2>
-                                {% if project.description %}
-                                    <p>{{ project.description }}</p>
-                                {% endif %}
-                                {% if project.tools.all %}
-                                    <div class="project-tools">
-                                        {% for tool in project.tools.all|slice:":4" %}
-                                            <span>{{ tool.name }}</span>
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
-                                <a href="{{ project.url }}" class="project-card-link">View Project →</a>
-                            </div>
-                        </article>
-                    {% endfor %}
-                </div>
-            </section>
-        {% endif %}
-        <!-- ---------- Empty State ---------- -->
-        {% if not selected_projects and not projects %}
-            <div class="empty-state">
-                <h2>No projects found.</h2>
-                <p>There are no projects matching this filter.</p>
+            {% if page.intro %}<div class="projects-intro">{{ page.intro|richtext }}</div>
+        {% else %}<p class="projects-intro">Geospatial systems, GIS automation, and WebGIS applications. Explore the problems, tools, and decisions behind my work.</p>{% endif %}
+    </header>
+    <nav class="project-filter" aria-label="Filter projects">
+        <a href="{{ page.url }}"
+           {% if not active_type %} aria-current="page"{% endif %}>All projects</a>
+        {% for kind in project_types %}
+            <a href="{{ page.url }}?type={{ kind.id }}"
+               {% if active_type == kind.id|stringformat:'s' %} aria-current="page"{% endif %}>{{ kind.name }}</a>
+        {% endfor %}
+    </nav>
+    {% if selected_projects %}
+        <section class="projects-list" aria-labelledby="featured-heading">
+            <header class="section-header">
+                <p class="eyebrow">Featured</p>
+                <h2 id="featured-heading">Selected work</h2>
+            </header>
+            <div class="project-grid">
+                {% for project in selected_projects %}
+                    {% include "porfolio/components/project_card.html" %}
+                {% endfor %}
             </div>
-        {% endif %}
-    </div>
+        </section>
+    {% endif %}
+    {% if projects %}
+        <section class="projects-list" aria-labelledby="more-heading">
+            <header class="section-header">
+                <p class="eyebrow">Explore</p>
+                <h2 id="more-heading">More projects</h2>
+            </header>
+            <div class="project-grid">
+                {% for project in projects %}
+                    {% include "porfolio/components/project_card.html" %}
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
+    {% if not selected_projects and not projects %}
+        <div class="empty-state">
+            <h2>No projects found.</h2>
+            <p>Try another category or <a href="{{ page.url }}">browse all projects</a>.</p>
+        </div>
+    {% endif %}
+</div>
 {% endblock %}

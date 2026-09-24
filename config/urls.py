@@ -8,6 +8,9 @@ from wagtail.admin import urls as wagtailadmin_urls
 from wagtail import urls as wagtail_urls
 
 from porfolio import urls as porfolio_urls
+from porfolio.seo import ContactSitemap, robots
+from wagtail.contrib.sitemaps.views import sitemap
+from wagtail.contrib.sitemaps.sitemap_generator import Sitemap
 
 
 def custom_404(request, exception):
@@ -15,6 +18,8 @@ def custom_404(request, exception):
 
 
 urlpatterns = [
+    path("robots.txt", robots, name="robots"),
+    path("sitemap.xml", sitemap, {"sitemaps": {"pages": Sitemap, "contact": ContactSitemap}}, name="sitemap"),
     path("django-admin/", admin.site.urls),
     path("admin/", include(wagtailadmin_urls)),
     path("guest/", include(porfolio_urls)),

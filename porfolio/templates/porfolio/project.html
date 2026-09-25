@@ -2,7 +2,7 @@
 {% load wagtailcore_tags wagtailimages_tags static %}
 {% block extra_link %}
     <link rel="stylesheet"
-          href="{% static 'css/sections/project_detail.css' %}">
+          href="{% static 'css/sections/project_detail.css' %}" />
 {% endblock %}
 {% block content %}
     <article class="container container-section project-detail">
@@ -22,10 +22,12 @@
             {% endif %}
             {% if page.links.all %}
                 <div class="project-primary-links">
-                    {% for link in page.links.all %}<a class="btn btn-line-black"
-   href="{{ link.url }}"
-   target="_blank"
-   rel="noopener noreferrer">{{ link.title }} ↗</a>{% endfor %}
+                    {% for link in page.links.all %}
+                        <a class="btn btn-line-black"
+                           href="{{ link.url }}"
+                           target="_blank"
+                           rel="noopener noreferrer">{{ link.title }} ↗</a>
+                    {% endfor %}
                 </div>
             {% endif %}
             <div class="project-information">
@@ -69,13 +71,6 @@
                 {% endif %}
             </div>
         </header>
-        <!-- ---------- Content ---------- -->
-        {% if page.content %}
-            <section class="project-content">
-                {{ page.content|richtext }}
-            </section>
-        {% endif %}
-        <!-- ---------- Gallery ---------- -->
         <section class="project-gallery">
             {% for item in page.project_images.all %}
                 <figure class="project-image">
@@ -90,7 +85,7 @@
                          width="{{ project_image.width }}"
                          height="{{ project_image.height }}"
                          loading="lazy"
-                         decoding="async">
+                         decoding="async" />
                     {% if item.caption %}
                         <figcaption>{{ item.caption }}</figcaption>
                     {% endif %}
@@ -101,11 +96,15 @@
                          alt="{{ page.title }}"
                          width="900"
                          height="600"
-                         loading="lazy">
+                         loading="lazy" />
                 </figure>
             {% endfor %}
         </section>
-        <!-- ---------- Videos ---------- -->
+        {% if page.content %}
+            <section class="project-content">
+                {{ page.content|richtext }}
+            </section>
+        {% endif %}
         {% if page.videos.all %}
             <section class="project-section">
                 <header class="section-header">
@@ -124,7 +123,6 @@
                 </div>
             </section>
         {% endif %}
-        <!-- ---------- Quotes ---------- -->
         {% if page.quotes.all %}
             <section class="project-section">
                 <header class="section-header">
@@ -148,7 +146,6 @@
                 </div>
             </section>
         {% endif %}
-        <!-- ---------- Footer ---------- -->
         <footer class="project-detail-footer">
             <a href="{{ seo.projects_url|default:seo.home }}">← Back to Projects</a>
         </footer>

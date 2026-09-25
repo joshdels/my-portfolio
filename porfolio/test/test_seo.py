@@ -1,6 +1,10 @@
 import json
 import re
+from tempfile import TemporaryDirectory
 
+from django.conf import settings
+from django.contrib.staticfiles.storage import staticfiles_storage
+from django.core.management import call_command
 from django.test import TestCase
 from wagtail.models import Page, Site
 
@@ -47,6 +51,40 @@ class PortfolioSEOTests(TestCase):
         self.assertContains(response, 'content="A Python spatial data workflow for infrastructure."')
         self.assertContains(response, 'href="http://testserver/work/spatial-pipeline/"')
         self.assertNotContains(response, "css/sections/hero.css")
+
+    def test_public_pages_with_production_static_manifest(self):
+        # Collect real assets so deleted or renamed files cannot be hidden by
+        # the permissive static storage used by the rest of the test suite.
+        storages = {
+            **settings.STORAGES,
+            "staticfiles": {
+                "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+            },
+        }
+        with TemporaryDirectory() as static_root:
+            with self.settings(DEBUG=False, STATIC_ROOT=static_root, STORAGES=storages):
+                call_command("collectstatic", interactive=False, verbosity=0)
+                portrait_url = staticfiles_storage.url("assets/joshua.png")
+                self.assertRegex(portrait_url, r"/assets/joshua\.[0-9a-f]+\.png$")
+                with self.assertRaisesMessage(ValueError, "Missing staticfiles manifest entry"):
+                    staticfiles_storage.url("assets/nonexistent-regression-check.png")
+
+                for path, status in (
+                    ("/", 200),
+                    ("/work/", 200),
+                    ("/work/?q=GIS", 200),
+                    ("/work/spatial-pipeline/", 200),
+                    ("/guest/contact/", 200),
+                    ("/missing/", 404),
+                ):
+                    with self.subTest(path=path):
+                        response = self.client.get(path)
+                        self.assertContains(
+                            response,
+                            f'content="http://testserver{portrait_url}"',
+                            status_code=status,
+                        )
+                        self.assertNotContains(response, "joshua.jpeg", status_code=status)
 
     def test_filtered_index_is_not_indexable(self):
         response = self.client.get("/work/?q=GIS")

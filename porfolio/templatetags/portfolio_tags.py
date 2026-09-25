@@ -47,7 +47,7 @@ def portfolio_meta(context):
         description = page.search_description or description
     description = " ".join(strip_tags(description).split())
     canonical = (page.get_full_url(request) if page else None) or urljoin(origin + "/", request.path)
-    image_url = urljoin(origin + "/", static("assets/joshua.jpeg"))
+    image_url = urljoin(origin + "/", static("assets/joshua.png"))
     if is_project:
         first_image = page.project_images.select_related("image").first()
         if first_image:

@@ -35,7 +35,7 @@ jobs:
           docker run --rm \
             -e DJANGO_SETTINGS_MODULE=config.settings.test \
             my-portfolio-test:latest \
-            uv run python manage.py test porfolio
+            uv run python manage.py test apps.porfolio apps.services
 
       - name: Tests Complete
         run: |

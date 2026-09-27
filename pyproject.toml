@@ -1,7 +1,7 @@
 [project]
 name = "my-porfolio"
 version = "0.1.0"
-description = "Add your description here"
+description = "Joshdels freelance CAD-to-GIS, parcel mapping, and masterplan WebGIS portfolio"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [

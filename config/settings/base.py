@@ -15,7 +15,8 @@ ALLOWED_HOSTS = []
 
 
 INSTALLED_APPS = [
-    "porfolio",
+    "apps.porfolio.apps.PorfolioConfig",
+    "apps.services.apps.ServicesConfig",
     # Wagtail
     "wagtail",
     "wagtail.admin",
@@ -113,4 +114,4 @@ MEDIA_URL = "media/"
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 
-WAGTAIL_SITE_NAME = "My Portfolio"
+WAGTAIL_SITE_NAME = "Joshdels — CAD-to-GIS & WebGIS"

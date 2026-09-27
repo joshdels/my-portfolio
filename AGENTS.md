@@ -2,19 +2,51 @@
 
 ## Purpose
 
-This is Joshua De Leon's personal geospatial developer portfolio,
+This is Joshua De Leon's freelance geospatial services portfolio,
 branded as Joshdels.
 
-The site showcases GIS automation, spatial data systems, and WebGIS
-work, with an emphasis on energy, land, and infrastructure.
+The primary niche is turning CAD drawings, parcel and tax mapping
+data, and masterplan drawings into usable GIS data and interactive
+WebGIS deliverables that clients can take over.
 
-Prioritize employer understanding, clear project evidence,
+Prioritize freelance client understanding, clear service scope,
+project evidence, useful handover deliverables, qualified inquiries,
 accessibility, performance, and search discoverability.
+
+## Freelance positioning
+
+- Lead with three connected services: CAD-to-GIS conversion,
+  parcel and tax mapping, and masterplan drawings to interactive
+  WebGIS with client handover.
+- Explain each service through the client's source material,
+  the work involved, and the agreed deliverables.
+- Describe CAD-to-GIS work in terms of drawing cleanup, coordinate
+  alignment, spatial layers, and attributes where supported by
+  the actual project scope and evidence.
+- Frame parcel and tax mapping as organizing parcel geometry and
+  linking client-provided identifiers and tax records. Do not imply
+  legal boundary certification, property valuation, or tax advice.
+- Frame masterplan WebGIS work as making drawing information
+  accessible through interactive map layers and agreed inspection
+  tools, with data, deployment details, and usage documentation
+  included as applicable to the agreed handover.
+- Support the niche with GIS automation and spatial data systems;
+  keep the main message focused on client problems and deliverables.
+- Use only verified project evidence. Distinguish intended services
+  from completed work; do not invent results or promise unsupported
+  accuracy, turnaround times, or business outcomes.
+- Follow Joshua's freelance positioning prompts supplied in the
+  current conversation. Do not assume access to earlier conversations.
 
 ## Working boundaries
 
+- Edit only files authorized by the current request. The current scope
+  includes niche positioning, SEO, the apps package
+  move, the services placeholder, and error templates.
 - Preserve the existing architecture and established visual direction.
-- Do not modify porfolio/models/ or porfolio/migrations/ unless the
+- The authorized package move preserves model and migration file contents
+  and the Django app label `porfolio`.
+- Do not modify apps/porfolio/models/ or apps/porfolio/migrations/ unless the
   user explicitly lifts that restriction.
 - Do not generate or apply migrations under the current restriction.
 - For analysis-only requests, return findings and proposed changes
@@ -45,12 +77,13 @@ Use pyproject.toml and uv.lock as dependency sources of truth.
 - config/settings/prod.py: production settings
 - config/settings/test.py: isolated test configuration
 - config/urls.py: admin, contact routing, and Wagtail routing
-- porfolio/models/: Wagtail page types and supporting data models
-- porfolio/views.py: contact form processing and email notifications
-- porfolio/forms.py: contact inquiry form
-- porfolio/templates/porfolio/: page templates and reusable sections
-- porfolio/static/css/: global, component, and section styles
-- porfolio/test/: Django tests
+- apps/services/: model-free coming-soon services page and future service work
+- apps/porfolio/models/: Wagtail page types and supporting data models
+- apps/porfolio/views.py: contact form processing and email notifications
+- apps/porfolio/forms.py: contact inquiry form
+- apps/porfolio/templates/porfolio/: page templates and reusable sections
+- apps/porfolio/static/css/: global, component, and section styles
+- apps/porfolio/test/: Django tests
 - .docker/: container and Compose configuration
 - .github/workflows/ci.yml: test, build, and deployment pipeline
 - docs/: architecture and installation documentation
@@ -63,7 +96,8 @@ HomePage
 └── ProjectsIndexPage
     └── Project
 
-Public content is routed through Wagtail.
+Portfolio content is routed through Wagtail.
+Services uses /services/ through apps.services (currently coming soon).
 Contact uses /guest/contact/.
 Wagtail admin uses /admin/.
 Django admin uses /django-admin/.
@@ -99,7 +133,12 @@ in templates. Do not assume it is editable through Wagtail.
 - Define an intentional policy for filter and search URLs.
 - Include useful social-sharing metadata.
 - Write project case studies around the problem, contribution,
-  technical decisions, evidence, and outcome.
+  source drawings or data, technical decisions, evidence, outcome,
+  and client handover. Identify deliverables and limitations clearly.
+- Write for clients seeking CAD-to-GIS conversion, parcel and tax
+  mapping, and masterplan WebGIS handover. Use these terms naturally
+  where relevant, without claiming services or results not supported
+  by the content.
 - Distinguish source-code findings from verified production behavior.
 - Do not promise rankings or treat audit scores as ranking guarantees.
 
@@ -109,15 +148,17 @@ Local development:
     uv run python manage.py runserver
 
 Tests for authorized implementation work:
-    uv run python manage.py test porfolio --settings=config.settings.test
+    uv run python manage.py test apps.porfolio apps.services --settings=config.settings.test
 
 Read-only template lint:
-    uv run djlint porfolio/templates --lint
+    uv run djlint apps/porfolio/templates apps/services/templates --lint
 
 Cautions:
 - make lint reformats files.
 - make migrate generates and applies migrations.
 - The Docker default startup command applies migrations.
+- Do not run migration commands or migration-triggering startup
+  paths while the no-migrations restriction is in force.
 - Do not use those mutation paths during an analysis-only review.
 
 For frontend changes, verify desktop and mobile layouts,

@@ -1,0 +1,46 @@
+{% load static %}
+<section id="about"
+         data-nav-theme="warm"
+         class="container container-two-columns">
+    <div>
+        <span>About Me</span>
+        <div class="header">
+            <h2>Joshua De Leon</h2>
+            <div class="button-horizontal">
+                <a target="_blank"
+                   rel="noopener noreferrer"
+                   href="https://www.linkedin.com/in/joshua-de-leon-8b0310301/">LinkedIn</a>
+                <a target="_blank"
+                   rel="noopener noreferrer"
+                   href="https://github.com/joshdels">GitHub</a>
+                <a target="_blank"
+                   rel="noopener noreferrer"
+                   href="https://docs.google.com/document/d/1cgLC5nZa1zEWc50NGUkG3fRfPHiJ6kymfsaN7GYC6_M/edit?usp=sharing">
+                    CV
+                </a>
+            </div>
+        </div>
+        <p>
+            I'm a freelance GIS developer focused on CAD-to-GIS conversion,
+            land parcels, and masterplan drawings to interactive WebGIS.
+            I combine GIS and software development to organize drawing data
+            and make it easier to explore and use.
+        </p>
+        <p>
+            My focus includes linking parcel geometry to client-provided tax records
+            and preparing map layers for planning teams, with utility layers
+            included where relevant. Each project starts with your source data
+            and defines the checks, deliverables, and documentation your team
+            needs for handover.
+        </p>
+        <a href="{% url 'contact' %}" class="btn btn-primary">Connect with Me</a>
+    </div>
+    <div>
+        <img src="{% static 'assets/joshua.png' %}"
+             alt="Joshua De Leon"
+             width="400"
+             height="400"
+             loading="lazy"
+             decoding="async" />
+    </div>
+</section>

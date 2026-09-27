@@ -104,8 +104,8 @@ GitHub Actions automatically builds the Docker image and deploys the `main` bran
 
 ```bash
 uv run python manage.py check
-uv run python manage.py test porfolio --settings=config.settings.test
-uv run djlint porfolio/templates --lint
+uv run python manage.py test apps.porfolio apps.services --settings=config.settings.test
+uv run djlint apps/porfolio/templates apps/services/templates --lint
 ```
 
 `make lint` reformats templates. `make migrate` generates and applies migrations; neither is a read-only check. The Docker startup command also applies existing migrations before collecting static files and starting Gunicorn.

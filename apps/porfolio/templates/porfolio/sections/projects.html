@@ -1,0 +1,17 @@
+<section id="projects"
+         class="container container-section"
+         data-nav-theme="light"
+         aria-labelledby="selected-heading">
+    <div class="section-header">
+        <span class="eyebrow">Projects / Selected work</span>
+        <h2 id="selected-heading">GIS and WebGIS work in practice.</h2>
+        <p>Explore the source data, technical decisions, and outputs behind my GIS work.</p>
+    </div>
+    <div class="project-grid">
+        {% for project in selected_projects|slice:":3" %}
+            {% include "porfolio/components/project_card.html" %}
+        {% empty %}<p>Projects coming soon.</p>{% endfor %}
+    </div>
+    {% if seo.projects_url %}<div class="section-action"><a href="{{ seo.projects_url }}"
+   class="btn btn-line-black">View all projects →</a></div>{% endif %}
+</section>

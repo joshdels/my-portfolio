@@ -9,15 +9,22 @@ my-portfolio/
 │   ├── urls.py
 │   └── wsgi.py
 │
-├── porfolio/
-│   ├── models/
-│   ├── views.py
-│   ├── forms.py
-│   ├── urls.py
-│   ├── templatetags/
-│   ├── seo.py
-│   ├── templates/
-│   └── static/
+├── apps/
+│   ├── porfolio/
+│   │   ├── models/
+│   │   ├── migrations/
+│   │   ├── views.py
+│   │   ├── forms.py
+│   │   ├── urls.py
+│   │   ├── templatetags/
+│   │   ├── seo.py
+│   │   ├── templates/
+│   │   └── static/
+│   └── services/
+│       ├── views.py
+│       ├── urls.py
+│       ├── templates/
+│       └── static/
 │
 ├── docs/
 │   ├── installation.md
@@ -108,3 +115,11 @@ Homepage sections use CSS scroll snapping with `proximity`, disabled on mobile a
 `seo.py` provides robots.txt and the contact sitemap entry. Wagtail’s sitemap implementation supplies live, public CMS pages. Crawl routes precede Wagtail’s catch-all route in `config/urls.py`.
 
 Filtered and searched index URLs use `noindex, follow` and the unfiltered page canonical. Navigation follows the published Projects Index Page URL instead of assuming its slug is `projects`.
+
+## App identity and future services
+
+`apps.porfolio` retains the Django app label `porfolio`, existing table names, Wagtail content types, and unchanged model and migration files. Python imports use `apps.porfolio`; model relation labels and template names continue to use `porfolio`. The package move requires no schema changes.
+
+`apps.services` has no database models. Its named route `services:index` serves `/services/` before the Wagtail catch-all. The coming-soon page is linked from navigation and the footer, marked `noindex, follow`, and excluded from the sitemap until the service offering is ready to publish.
+
+`apps/porfolio/templates/500.html` is rendered by `handler500` with a true HTTP 500 response when debug mode is off. It deliberately avoids CMS queries, request context processors, external fonts, and static assets so it can render during a database or asset failure.

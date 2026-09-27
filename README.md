@@ -1,7 +1,22 @@
-# My Portfolio
+# Joshdels — CAD-to-GIS and WebGIS Services
 
-Joshua De Leon’s geospatial developer portfolio, built with Django and Wagtail to showcase spatial data systems, GIS automation, and WebGIS projects.
+Joshua De Leon's freelance geospatial services portfolio, built with Django and Wagtail. The site is being repositioned around CAD-to-GIS conversion, parcel and tax mapping, and masterplan drawings delivered as interactive WebGIS with client handover.
 
+## Service direction
+
+The focus is helping clients turn existing drawings and land records into usable spatial data and maps. Each engagement should define the source materials, required checks, deliverables, and handover scope.
+
+| Service | Source material | Intended deliverables, subject to scope |
+| --- | --- | --- |
+| CAD-to-GIS conversion | Client-provided CAD drawings and coordinate reference information | Organized GIS layers, attributes, and documented conversion checks |
+| Parcel and tax mapping | Parcel geometry, parcel identifiers, and client-provided tax records | Linked parcel layers, mapped records, and documented data gaps |
+| Masterplan to interactive WebGIS | Masterplan drawings and supporting spatial data | Interactive map layers, agreed inspection tools, and client handover documentation |
+
+Handover should specify the data files, application source where agreed, deployment arrangements, ownership and access, usage instructions, and any ongoing support. Parcel and tax mapping concerns spatial data organization; it does not imply legal boundary certification, property valuation, or tax advice.
+
+These are positioning priorities, not claims of completed projects. Case studies should show verified source material, Joshua's contribution, technical decisions, delivered outputs, and outcomes. GIS automation and spatial data systems support these services.
+
+Site copy and default metadata follow this direction. Existing Wagtail content and editor-supplied SEO fields remain unchanged and should be reviewed before publishing. `/services/` is a coming-soon page for future freelance offerings.
 
 ![Background](public/image.png)
 
@@ -19,6 +34,8 @@ Joshua De Leon’s geospatial developer portfolio, built with Django and Wagtail
 * Wagtail-managed pages and project content
 * Project portfolio and project history
 * Contact inquiry form with email notifications
+* Services coming-soon page at `/services/`, linked from navigation
+* Standalone 500 error page that does not depend on the database
 * Responsive frontend with section color themes and shared project cards
 * Page-specific SEO, social previews, structured data, and XML sitemap
 * Dockerized deployment
@@ -59,13 +76,16 @@ The pipeline is located in:
 
 ## Development
 
+Current working restrictions: do not generate or apply migrations, and do not modify `apps/porfolio/models/` or `apps/porfolio/migrations/`. The portfolio lives in `apps/porfolio`; the future services area lives in `apps/services`.
+
+For an already configured local database:
+
 ```bash
 uv sync --locked
-# First-time database setup only:
-uv run python manage.py migrate
-uv run python manage.py createsuperuser
 uv run python manage.py runserver
 ```
+
+If database setup requires migrations, stop until that restriction is explicitly lifted. Avoid `make migrate` and the default Docker startup path, which also apply migrations.
 
 Wagtail admin:
 
@@ -78,5 +98,5 @@ Local development uses SQLite; production uses PostgreSQL. See the installation 
 Run the test suite:
 
 ```bash
-uv run python manage.py test porfolio --settings=config.settings.test
+uv run python manage.py test apps.porfolio apps.services --settings=config.settings.test
 ```

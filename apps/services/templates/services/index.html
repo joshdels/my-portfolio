@@ -1,0 +1,38 @@
+{% extends "porfolio/base.html" %}
+{% load static %}
+{% block extra_link %}
+    <link rel="stylesheet" href="{% static 'css/services.css' %}">
+{% endblock %}
+{% block content %}
+    <section class="container services-page" aria-labelledby="services-heading">
+        <header class="services-intro">
+            <p class="eyebrow">Freelance services / Coming soon</p>
+            <h1 id="services-heading">From CAD drawings to GIS and interactive WebGIS.</h1>
+            <p>I'm preparing service details for land parcel mapping and masterplan WebGIS. Have drawings or records ready? We can discuss your scope and handover needs now.</p>
+        </header>
+        <div class="services-grid">
+            <article>
+                <p class="eyebrow">01 / Drawings to data</p>
+                <h2>CAD-to-GIS conversion</h2>
+                <p>Organize CAD drawings into GIS layers with coordinate alignment, useful attributes, and documented checks agreed around your source data.</p>
+            </article>
+            <article>
+                <p class="eyebrow">02 / Land records</p>
+                <h2>Parcel and tax mapping</h2>
+                <p>Connect parcel geometry with client-provided identifiers and tax records. Document unmatched records and data gaps for your team's review.</p>
+            </article>
+            <article>
+                <p class="eyebrow">03 / Plans to maps</p>
+                <h2>Masterplan drawings to WebGIS</h2>
+                <p>Prepare interactive map layers from masterplans, with agreed inspection tools and relevant utility layers where needed.</p>
+            </article>
+        </div>
+        <section class="services-handover" aria-labelledby="handover-heading">
+            <h2 id="handover-heading">Plan the handover from the start.</h2>
+            <p>We'll define data formats, map features, deployment and access, usage documentation, and any ongoing support before work begins.</p>
+            <p>Share your source formats, coordinate reference information if available, location, intended users, and expected outputs.</p>
+            <a class="btn btn-primary" href="{% url 'contact' %}">Discuss your project</a>
+            <p class="services-note">Parcel and tax mapping organizes spatial records; it does not certify legal boundaries, value property, or provide tax advice.</p>
+        </section>
+    </section>
+{% endblock %}

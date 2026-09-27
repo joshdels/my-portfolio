@@ -1,0 +1,48 @@
+.services-page {
+  padding-block: 4rem;
+}
+
+.home-scroll [data-home-stack] > .services-page {
+  min-height: calc(100svh - 5rem);
+  background: var(--color-bg);
+}
+
+.services-intro {
+  max-width: 52rem;
+}
+
+.services-page p {
+  line-height: 1.7;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2rem;
+  margin-block: 3rem;
+}
+
+.services-grid article {
+  border-top: 1px solid var(--color-green-dark);
+  padding-top: 1rem;
+}
+
+.services-grid h2,
+.services-grid h3 {
+  font: 500 1.7rem/1.2 var(--font-heading);
+}
+
+.services-handover {
+  max-width: 48rem;
+}
+
+.services-note {
+  margin-top: 2rem;
+  font-size: 0.875rem;
+}
+
+@media (max-width: 800px) {
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,17 @@
+{% extends "porfolio/base.html" %}
+{% load static %}
+{% block extra_link %}
+    <link rel="stylesheet" href="{% static 'css/sections/hero.css' %}">
+    <link rel="stylesheet" href="{% static 'css/sections/about.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components/cards.css' %}">
+    <link rel="stylesheet" href="{% static 'css/sections/projects.css' %}">
+    <link rel="stylesheet" href="{% static 'css/services.css' %}">
+{% endblock %}
+{% block content %}
+    <div data-home-stack>
+        {% include "porfolio/sections/hero.html" %}
+        {% include "porfolio/sections/projects.html" %}
+        {% include "porfolio/sections/about.html" %}
+        {% include "porfolio/sections/feature.html" %}
+    </div>
+{% endblock content %}

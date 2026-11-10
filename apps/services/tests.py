@@ -31,8 +31,8 @@ class ServicesTests(TestCase):
 
     def test_placeholder_metadata_navigation_and_contact(self):
         response = self.client.get(reverse("services:index"))
-        self.assertContains(response, "What I do as a geospatial developer.")
-        self.assertContains(response, "WebGIS platforms")
+        self.assertContains(response, "How I approach GIS work.")
+        self.assertContains(response, "Map production &amp; GIS/CAD support")
         self.assertContains(response, 'href="/services/" aria-current="page"')
         self.assertContains(response, 'href="/guest/contact/"')
         self.assertContains(response, 'href="http://testserver/services/"')

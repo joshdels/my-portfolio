@@ -115,7 +115,7 @@ MEDIA_URL = "media/"
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 
-WAGTAIL_SITE_NAME = "Joshdels — Geospatial Developer & GIS"
+WAGTAIL_SITE_NAME = "Joshdels — Junior GIS Practitioner"
 
 
 # Google reCAPTCHA v2 ("I'm not a robot" checkbox) on the contact form.

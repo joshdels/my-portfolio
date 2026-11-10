@@ -2,36 +2,38 @@
 
 ## Purpose
 
-This is Joshua De Leon's freelance geospatial services portfolio,
-branded as Joshdels.
+This is Joshua De Leon's career and project portfolio, branded as
+Joshdels.
 
-The primary niche is turning CAD drawings, parcel and tax mapping
-data, and masterplan drawings into usable GIS data and interactive
-WebGIS deliverables that clients can take over.
+The primary goal is to help Joshua earn an offshore junior GIS role
+with an Australian planning, environmental, surveying, civil, or
+land-development team. Small, bounded freelance GIS production tasks
+are secondary.
 
-Prioritize freelance client understanding, clear service scope,
-project evidence, useful handover deliverables, qualified inquiries,
-accessibility, performance, and search discoverability.
+Prioritize credible junior positioning, Australian-team relevance,
+inspectable project evidence, documented QA, clear limitations,
+qualified job or project inquiries, accessibility, performance, and
+search discoverability.
 
-## Freelance positioning
+## Career positioning
 
-- Lead with three connected services: CAD-to-GIS conversion,
-  parcel and tax mapping, and masterplan drawings to interactive
-  WebGIS with client handover.
-- Explain each service through the client's source material,
-  the work involved, and the agreed deliverables.
-- Describe CAD-to-GIS work in terms of drawing cleanup, coordinate
-  alignment, spatial layers, and attributes where supported by
-  the actual project scope and evidence.
-- Frame parcel and tax mapping as organizing parcel geometry and
-  linking client-provided identifiers and tax records. Do not imply
-  legal boundary certification, property valuation, or tax advice.
-- Frame masterplan WebGIS work as making drawing information
-  accessible through interactive map layers and agreed inspection
-  tools, with data, deployment details, and usage documentation
-  included as applicable to the agreed handover.
-- Support the niche with GIS automation and spatial data systems;
-  keep the main message focused on client problems and deliverables.
+- Default public identity: Philippines-based Junior GIS Practitioner.
+- Target junior GIS technician, cartography, spatial-data, and GIS/CAD
+  support roles that explicitly accept offshore workers.
+- Present WebGIS, automation, and development projects as evidence of
+  learning and range, not proof of seniority or independent ownership.
+- Prefer careful production, documented checks, questions, and
+  reviewer-ready handover over broad end-to-end claims.
+- Explain each capability through the task, source material, provided
+  procedure, Joshua's actual contribution, checks, outputs, reviewer
+  feedback where available, and limitations.
+- Describe CAD-to-GIS only as preparation or support unless a project
+  proves independent conversion responsibility.
+- Describe parcel, tax, masterplan, WebGIS, automation, and software
+  projects only where relevant to actual evidence. They are portfolio
+  breadth, not the default service campaign.
+- Freelance tasks must be bounded, reviewable, and within demonstrated
+  ability. Complex systems require separate qualification and scope.
 - Use only verified project evidence. Distinguish intended services
   from completed work; do not invent results or promise unsupported
   accuracy, turnaround times, or business outcomes.
@@ -135,10 +137,9 @@ in templates. Do not assume it is editable through Wagtail.
 - Write project case studies around the problem, contribution,
   source drawings or data, technical decisions, evidence, outcome,
   and client handover. Identify deliverables and limitations clearly.
-- Write for clients seeking CAD-to-GIS conversion, parcel and tax
-  mapping, and masterplan WebGIS handover. Use these terms naturally
-  where relevant, without claiming services or results not supported
-  by the content.
+- Write first for Australian employers and team leads considering a
+  junior offshore GIS practitioner, then for clients with small,
+  clearly specified GIS production tasks.
 - Distinguish source-code findings from verified production behavior.
 - Do not promise rankings or treat audit scores as ranking guarantees.
 

@@ -30,7 +30,7 @@ class ContactInquiryForm(forms.ModelForm):
             ),
             "inquiry": forms.Textarea(
                 attrs={
-                    "placeholder": "Tell me about the role or project — your spatial data, goals, tools (QGIS, ArcGIS, WebGIS...), timeline, and how you'd like to work together...",
+                    "placeholder": "Tell me about the role, project, or GIS problem you'd like to discuss...",
                     "rows": 7,
                 }
             ),

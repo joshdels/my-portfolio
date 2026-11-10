@@ -41,8 +41,8 @@ class PortfolioSEOTests(TestCase):
     def test_home_metadata_and_semantics(self):
         response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Joshua De Leon | Geospatial Developer &amp; GIS Specialist")
-        self.assertContains(response, "I turn spatial data into maps, platforms, and automation teams rely on.")
+        self.assertContains(response, "Joshua De Leon | Junior GIS Practitioner")
+        self.assertContains(response, "I turn spatial data into clear, useful maps.")
         self.assertContains(response, 'href="/services/"')
         self.assertNotIn("energy", response.content.decode().lower())
         self.assertContains(response, 'href="/work/"')
@@ -207,7 +207,7 @@ class PortfolioSEOTests(TestCase):
 
     def test_contact_metadata_is_indexable_and_niche_specific(self):
         response = self.client.get("/guest/contact/")
-        self.assertContains(response, "<title>Contact | Joshua De Leon, Geospatial Developer</title>", html=True)
+        self.assertContains(response, "<title>Contact | Joshua De Leon, Junior GIS Practitioner</title>", html=True)
         self.assertContains(response, 'href="http://testserver/guest/contact/"')
         self.assertNotContains(response, 'content="noindex, follow"')
         self.assertContains(response, "application/ld+json")

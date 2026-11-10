@@ -9,6 +9,11 @@ on:
     branches:
       - main
 
+# Cancel superseded runs on the same ref to save queue time.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
 
   test:
@@ -19,28 +24,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Build Docker image for tests
-        run: |
-          echo "--- Building Docker image for tests ---"
+      # Native run with a cached uv is far faster than building a Docker
+      # image just to run the SQLite-backed test settings.
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          cache-dependency-glob: uv.lock
 
-          docker build \
-            -f .docker/Dockerfile \
-            -t my-portfolio-test:latest \
-            .
+      - name: Install dependencies
+        run: uv sync --frozen
 
       - name: Run Django tests
-        run: |
-          echo "--- Running Django tests ---"
-
-          docker run --rm \
-            -e DJANGO_SETTINGS_MODULE=config.settings.test \
-            my-portfolio-test:latest \
-            uv run python manage.py test apps.porfolio apps.services
-
-      - name: Tests Complete
-        run: |
-          echo "--- All Django tests passed ---"
-
+        run: uv run python manage.py test apps.porfolio apps.services --settings=config.settings.test
 
   build:
     name: Build Docker Image
@@ -48,23 +44,26 @@ jobs:
 
     needs: test
 
+    # Only build/deploy artifacts for pushes to main; PRs stop at tests.
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Build Docker image
-        run: |
-          echo "--- Building production Docker image ---"
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-          docker build \
-            -f .docker/Dockerfile \
-            -t my-portfolio:latest \
-            .
-
-      - name: Build Complete
-        run: |
-          echo "--- Docker build completed successfully ---"
-
+      - name: Build production Docker image (with layer cache)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: .docker/Dockerfile
+          tags: my-portfolio:latest
+          push: false
+          load: false
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
   deploy:
     name: Deploy to Vultr

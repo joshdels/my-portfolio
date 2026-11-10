@@ -17,6 +17,7 @@ class ContactInquiryFormTests(TestCase):
                 "email": "test@example.com",
                 "industry": "other",
                 "inquiry": "Testing the contact form.",
+                "g-recaptcha-response": "PASSED",
             }
         )
 
@@ -29,6 +30,7 @@ class ContactInquiryFormTests(TestCase):
                 "email": "test@example.com",
                 "industry": "other",
                 "inquiry": "Testing the contact form.",
+                "g-recaptcha-response": "PASSED",
             }
         )
 
@@ -65,6 +67,7 @@ class ContactViewTests(TestCase):
                 "email": "test@example.com",
                 "industry": "other",
                 "inquiry": "Testing the production contact form.",
+                "g-recaptcha-response": "PASSED",
             },
         )
 
@@ -106,6 +109,7 @@ class ContactViewTests(TestCase):
         payload = {
             "name": "Parcel mapping client", "email": "invalid-address",
             "industry": "real_estate", "inquiry": "Convert our masterplan drawings to GIS.",
+            "g-recaptcha-response": "PASSED",
         }
         response = self.client.post(reverse("contact"), payload)
         self.assertEqual(response.status_code, 200)

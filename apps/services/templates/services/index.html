@@ -6,33 +6,31 @@
 {% block content %}
     <section class="container services-page" aria-labelledby="services-heading">
         <header class="services-intro">
-            <p class="eyebrow">Freelance services / Coming soon</p>
-            <h1 id="services-heading">From CAD drawings to GIS and interactive WebGIS.</h1>
-            <p>I'm preparing service details for land parcel mapping and masterplan WebGIS. Have drawings or records ready? We can discuss your scope and handover needs now.</p>
+            <p class="eyebrow">Experience / How I work</p>
+            <h1 id="services-heading">What I do as a geospatial developer.</h1>
+            <p>I turn spatial data into systems teams depend on — from data engineering and GIS analysis through to the WebGIS application and its documentation. Here's the kind of work I take on and how I deliver it.</p>
         </header>
         <div class="services-grid">
             <article>
-                <p class="eyebrow">01 / Drawings to data</p>
-                <h2>CAD-to-GIS conversion</h2>
-                <p>Organize CAD drawings into GIS layers with coordinate alignment, useful attributes, and documented checks agreed around your source data.</p>
+                <p class="eyebrow">01 / Data &amp; automation</p>
+                <h2>Spatial data engineering</h2>
+                <p>Convert CAD, parcel, and legacy datasets into clean, aligned GIS layers with structured attributes and documented quality checks. When the work repeats, I automate it in Python and C#/.NET so the pipeline scales.</p>
             </article>
             <article>
-                <p class="eyebrow">02 / Land records</p>
-                <h2>Parcel and tax mapping</h2>
-                <p>Connect parcel geometry with client-provided identifiers and tax records. Document unmatched records and data gaps for your team's review.</p>
+                <p class="eyebrow">02 / Analysis &amp; AI</p>
+                <h2>GIS analysis &amp; GeoAI</h2>
+                <p>Spatial analysis for planning, infrastructure, and environmental questions in QGIS and spatial databases — using AI as leverage to speed up repetitive tasks and build GeoAI workflows.</p>
             </article>
             <article>
-                <p class="eyebrow">03 / Plans to maps</p>
-                <h2>Masterplan drawings to WebGIS</h2>
-                <p>Prepare interactive map layers from masterplans, with agreed inspection tools and relevant utility layers where needed.</p>
+                <p class="eyebrow">03 / Maps teams use</p>
+                <h2>Cartography &amp; WebGIS</h2>
+                <p>Readable map design and interactive, browser-based platforms built with Django and web mapping libraries — layer control, feature search and inspection, and access management. Open-source (Leaflet, QGIS Server) or enterprise ArcGIS.</p>
             </article>
         </div>
         <section class="services-handover" aria-labelledby="handover-heading">
-            <h2 id="handover-heading">Plan the handover from the start.</h2>
-            <p>We'll define data formats, map features, deployment and access, usage documentation, and any ongoing support before work begins.</p>
-            <p>Share your source formats, coordinate reference information if available, location, intended users, and expected outputs.</p>
-            <a class="btn btn-primary" href="{% url 'contact' %}">Discuss your project</a>
-            <p class="services-note">Parcel and tax mapping organizes spatial records; it does not certify legal boundaries, value property, or provide tax advice.</p>
+            <h2 id="handover-heading">End to end, documented and handed over.</h2>
+            <p>I own features from data through deployment: back end, map UI, access, and the usage documentation a team needs to run the system without me. That handover discipline comes from delivering platforms into live local-government use.</p>
+            <a class="btn btn-primary" href="{% url 'contact' %}">Talk to me about a role or project</a>
         </section>
     </section>
 {% endblock %}

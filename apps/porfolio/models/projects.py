@@ -95,9 +95,11 @@ class ProjectsIndexPage(Page):
             ).distinct()
 
         # Selected Works
-        # Still controlled by selected=True
-        # and ordered by the manually entered project date.
-        context["selected_projects"] = projects.filter(selected=True)
+        # Controlled by selected=True and arranged by the manual
+        # selected_order (lower first), then the project date.
+        context["selected_projects"] = projects.filter(selected=True).order_by(
+            "selected_order", F("date").desc(nulls_last=True)
+        )
 
         # All other projects
         context["projects"] = projects.filter(selected=False)
@@ -188,6 +190,13 @@ class Project(Page):
         help_text="Include this project in the selected work section.",
     )
 
+    # Manual ordering for the selected work section.
+    # Lower numbers appear first; ties fall back to date.
+    selected_order = models.PositiveIntegerField(
+        default=0,
+        help_text="Order in the selected work section (lower numbers first).",
+    )
+
     content_panels = Page.content_panels + [
         FieldPanel("description"),
         MultipleChooserPanel(
@@ -205,6 +214,7 @@ class Project(Page):
         FieldPanel("date"),
         FieldPanel("content"),
         FieldPanel("selected"),
+        FieldPanel("selected_order"),
         InlinePanel(
             "project_images",
             label="Images",

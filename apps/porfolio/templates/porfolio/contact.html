@@ -8,11 +8,12 @@
         <div class="container">
             <div class="contact-header">
                 <p class="eyebrow">CONTACT</p>
-                <h1>Let's discuss your CAD or GIS project.</h1>
+                <h1>Need help with a geospatial project?</h1>
                 <p>
-                    Need CAD-to-GIS conversion, parcel and tax mapping, or an interactive
-                    WebGIS from masterplan drawings? Tell me about your source files,
-                    location, intended use, timeline, and handover needs.
+                    Hiring for a geospatial developer or GIS role, or have a spatial
+                    data, WebGIS, mapping, or automation project to move forward?
+                    Tell me what you're working on — your data, goals, timeline, and
+                    how you'd like to collaborate — and I'll get back to you.
                 </p>
             </div>
             {% if messages %}
@@ -53,6 +54,12 @@
                     {{ form.inquiry }}
                     {% if form.inquiry.errors %}
                         <div class="form-error">{{ form.inquiry.errors }}</div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.captcha }}
+                    {% if form.captcha.errors %}
+                        <div class="form-error">{{ form.captcha.errors }}</div>
                     {% endif %}
                 </div>
                 <button type="submit" class="btn btn-primary">Send inquiry</button>

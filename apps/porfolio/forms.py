@@ -1,9 +1,13 @@
 from django import forms
+from django_recaptcha.fields import ReCaptchaField
+from django_recaptcha.widgets import ReCaptchaV2Checkbox
 
 from .models import ContactInquiry
 
 
 class ContactInquiryForm(forms.ModelForm):
+    captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox())
+
     class Meta:
         model = ContactInquiry
         fields = ["name", "email", "industry", "inquiry"]
@@ -26,7 +30,7 @@ class ContactInquiryForm(forms.ModelForm):
             ),
             "inquiry": forms.Textarea(
                 attrs={
-                    "placeholder": "Describe your CAD drawings, parcel records, or masterplan, the location, expected outputs, and handover needs...",
+                    "placeholder": "Tell me about the role or project — your spatial data, goals, tools (QGIS, ArcGIS, WebGIS...), timeline, and how you'd like to work together...",
                     "rows": 7,
                 }
             ),

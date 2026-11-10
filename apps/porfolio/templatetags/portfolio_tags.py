@@ -30,23 +30,23 @@ def portfolio_meta(context):
     is_index = isinstance(page, ProjectsIndexPage)
     is_contact = request.path == reverse("contact")
     is_services = request.path == reverse("services:index")
-    description = "Freelance CAD-to-GIS, parcel and tax mapping, and interactive masterplan WebGIS for planning, engineering, and property teams. Clear data and map handover."
-    title = "CAD-to-GIS & Masterplan WebGIS | Joshdels"
+    description = "Joshua De Leon is a geospatial developer and GIS specialist building WebGIS platforms, spatial data pipelines, and GIS automation across open-source (Python, Django, QGIS) and enterprise (ArcGIS) stacks. Open to roles — Australian, remote, or on-site."
+    title = "Joshua De Leon | Geospatial Developer & GIS Specialist"
     if is_index:
-        title = "GIS & WebGIS Projects | Joshua De Leon"
-        description = "Explore Joshua De Leon's GIS and WebGIS projects, source data, technical decisions, and deliverables supporting his CAD-to-GIS and land mapping focus."
+        title = "Geospatial & GIS Projects | Joshua De Leon"
+        description = "Explore Joshua De Leon's geospatial and GIS projects — WebGIS platforms, spatial data pipelines, and GeoAI work, with the problem, technical decisions, and impact behind each."
     elif is_project:
         title = f"{page.title} | Joshua De Leon"
         description = page.description
     elif is_contact:
-        title = "Contact for CAD-to-GIS & WebGIS | Joshdels"
-        description = "Discuss CAD drawings, land parcel and tax records, or masterplan WebGIS with Joshua De Leon. Share your source data, deliverables, and handover needs."
+        title = "Contact | Joshua De Leon, Geospatial Developer"
+        description = "Get in touch with Joshua De Leon about geospatial developer and GIS roles or projects — WebGIS, spatial data engineering, and GIS automation."
     elif is_services:
-        title = "CAD-to-GIS & WebGIS Services — Coming Soon | Joshdels"
-        description = "Service details are coming soon: CAD-to-GIS conversion, parcel and tax mapping, and masterplan drawings to interactive WebGIS with client handover."
+        title = "Experience | Geospatial Developer & GIS | Joshua De Leon"
+        description = "How Joshua De Leon works as a geospatial developer: spatial data engineering, GIS and spatial analysis, and WebGIS platforms delivered end to end and documented for handover."
     elif not is_home:
         title = "Page not found | Joshua De Leon"
-        description = "This page could not be found. Explore Joshdels' GIS projects or get in touch about your drawings and mapping needs."
+        description = "This page could not be found. Explore Joshua De Leon's geospatial and GIS projects or get in touch about geospatial roles and projects."
     if page:
         title = page.seo_title or title
         description = page.search_description or description
@@ -61,8 +61,8 @@ def portfolio_meta(context):
     person_id = home_absolute + "#person"
     graph = [{"@type": "Person", "@id": person_id, "name": "Joshua De Leon",
               "alternateName": "Joshdels", "url": home_absolute,
-              "jobTitle": "Freelance GIS Developer",
-              "knowsAbout": ["CAD-to-GIS conversion", "Land parcel mapping", "Tax mapping", "Masterplan WebGIS"],
+              "jobTitle": "Geospatial Developer & GIS Specialist",
+              "knowsAbout": ["Geospatial development", "GIS", "WebGIS", "Cartography", "Spatial data engineering", "GIS automation", "GeoAI", "QGIS", "ArcGIS", "PostGIS", "Python", "Django"],
               "sameAs": ["https://github.com/joshdels", "https://www.linkedin.com/in/joshua-de-leon-8b0310301/"]},
              {"@type": "WebSite", "@id": home_absolute + "#website", "url": home_absolute,
               "name": "Joshua De Leon — Joshdels", "author": {"@id": person_id}},
@@ -81,5 +81,5 @@ def portfolio_meta(context):
     return {"title": title, "description": description, "canonical": canonical,
             "image": image_url, "schema": mark_safe(schema), "home": home,
             "projects_url": projects_url, "is_home": is_home, "is_services": is_services,
-            # Keep the services placeholder out of search until the offering launches.
-            "noindex": bool(is_services or getattr(request, "is_preview", False) or request.GET.get("type") or request.GET.get("q") or (not page and not is_contact and not is_services))}
+            # Index real content; keep previews and filter/search URLs out of search.
+            "noindex": bool(getattr(request, "is_preview", False) or request.GET.get("type") or request.GET.get("q") or (not page and not is_contact and not is_services))}

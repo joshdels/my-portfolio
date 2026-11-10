@@ -4,11 +4,11 @@
          aria-labelledby="selected-heading">
     <div class="section-header">
         <span class="eyebrow">Projects / Selected work</span>
-        <h2 id="selected-heading">GIS and WebGIS work in practice.</h2>
-        <p>Explore the source data, technical decisions, and outputs behind my GIS work.</p>
+        <h2 id="selected-heading">Geospatial work shipped into production.</h2>
+        <p>Real platforms and pipelines — the problem, the source data, the technical decisions, and the impact for the teams that use them.</p>
     </div>
     <div class="project-grid">
-        {% for project in selected_projects|slice:":3" %}
+        {% for project in selected_projects|slice:":6" %}
             {% include "porfolio/components/project_card.html" %}
         {% empty %}<p>Projects coming soon.</p>{% endfor %}
     </div>

@@ -1,6 +1,11 @@
+import os
+
 from .base import *
 
 DEBUG = True
+
+# Let reCAPTCHA fields validate with the value "PASSED" during tests.
+os.environ["RECAPTCHA_TESTING"] = "True"
 
 SECRET_KEY = "test-secret-key"
 

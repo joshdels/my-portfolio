@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.postgres",
     # Third-party
     "storages",
+    "django_recaptcha",
 ]
 
 
@@ -114,4 +115,18 @@ MEDIA_URL = "media/"
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 
-WAGTAIL_SITE_NAME = "Joshdels — CAD-to-GIS & WebGIS"
+WAGTAIL_SITE_NAME = "Joshdels — Geospatial Developer & GIS"
+
+
+# Google reCAPTCHA v2 ("I'm not a robot" checkbox) on the contact form.
+# Set real keys in .env for production; the Google test keys below let local
+# development pass without a configured domain.
+RECAPTCHA_PUBLIC_KEY = os.environ.get(
+    "RECAPTCHA_PUBLIC_KEY", "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+)
+RECAPTCHA_PRIVATE_KEY = os.environ.get(
+    "RECAPTCHA_PRIVATE_KEY", "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
+)
+# Silence the "test keys" warning only while the public (test) key is in use.
+if RECAPTCHA_PUBLIC_KEY == "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI":
+    SILENCED_SYSTEM_CHECKS = ["django_recaptcha.recaptcha_test_key_error"]

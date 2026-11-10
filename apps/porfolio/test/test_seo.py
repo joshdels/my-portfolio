@@ -41,8 +41,8 @@ class PortfolioSEOTests(TestCase):
     def test_home_metadata_and_semantics(self):
         response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "CAD-to-GIS &amp; Masterplan WebGIS | Joshdels")
-        self.assertContains(response, "CAD to GIS. Masterplans to interactive WebGIS.")
+        self.assertContains(response, "Joshua De Leon | Geospatial Developer &amp; GIS Specialist")
+        self.assertContains(response, "I turn spatial data into maps, platforms, and automation teams rely on.")
         self.assertContains(response, 'href="/services/"')
         self.assertNotIn("energy", response.content.decode().lower())
         self.assertContains(response, 'href="/work/"')
@@ -53,7 +53,7 @@ class PortfolioSEOTests(TestCase):
         self.assertEqual(len(re.findall(r"<main(?:\s|>)", html)), 1)
         schema = json.loads(re.search(r'<script type="application/ld\+json">(.*?)</script>', html).group(1))
         self.assertEqual(schema["@graph"][0]["name"], "Joshua De Leon")
-        self.assertIn("CAD-to-GIS conversion", schema["@graph"][0]["knowsAbout"])
+        self.assertIn("WebGIS", schema["@graph"][0]["knowsAbout"])
         self.assertNotIn('name="robots" content="noindex', html)
 
     def test_project_uses_editor_seo_fields(self):
@@ -207,7 +207,7 @@ class PortfolioSEOTests(TestCase):
 
     def test_contact_metadata_is_indexable_and_niche_specific(self):
         response = self.client.get("/guest/contact/")
-        self.assertContains(response, "<title>Contact for CAD-to-GIS &amp; WebGIS | Joshdels</title>", html=True)
+        self.assertContains(response, "<title>Contact | Joshua De Leon, Geospatial Developer</title>", html=True)
         self.assertContains(response, 'href="http://testserver/guest/contact/"')
         self.assertNotContains(response, 'content="noindex, follow"')
         self.assertContains(response, "application/ld+json")

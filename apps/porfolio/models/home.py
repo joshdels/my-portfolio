@@ -29,7 +29,7 @@ class HomePage(Page):
             Project.objects.live()
             .public()
             .filter(selected=True)
-            .order_by("-first_published_at")
+            .order_by("selected_order", "-first_published_at")
         )
 
         return context

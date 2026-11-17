@@ -1,13 +1,17 @@
 from unittest.mock import patch
 
 from django.apps import apps
+from django.contrib.auth.models import AnonymousUser
+from django.core.cache import cache
 from django.db import OperationalError
+from django.http import HttpResponse
 from django.test import RequestFactory, SimpleTestCase, TestCase, override_settings
 from django.urls import get_resolver, path, resolve, reverse
 from wagtail.models import Page, Site
 
 from apps.porfolio.models import HomePage
 from config.urls import custom_500
+from config.middleware import PublicPageCacheMiddleware
 
 
 def broken_view(request):
@@ -66,6 +70,42 @@ class ServicesTests(TestCase):
         self.assertContains(response, '<link rel="canonical" href="http://testserver/services/">', html=True)
         self.assertContains(response, 'content="noindex, follow"')
         self.assertNotContains(response, "application/ld+json")
+
+
+@override_settings(PUBLIC_PAGE_CACHE_SECONDS=60)
+class PublicPageCacheMiddlewareTests(SimpleTestCase):
+    def setUp(self):
+        cache.clear()
+        self.addCleanup(cache.clear)
+        self.factory = RequestFactory()
+        self.calls = 0
+
+        def view(request):
+            self.calls += 1
+            return HttpResponse(f"response {self.calls}")
+
+        self.middleware = PublicPageCacheMiddleware(view)
+
+    def request(self, path):
+        request = self.factory.get(path)
+        request.user = AnonymousUser()
+        return request
+
+    def test_anonymous_public_wagtail_response_is_cached(self):
+        first = self.middleware(self.request("/projects/example/"))
+        second = self.middleware(self.request("/projects/example/"))
+
+        self.assertEqual(first.content, b"response 1")
+        self.assertEqual(second.content, b"response 1")
+        self.assertEqual(self.calls, 1)
+
+    def test_search_and_admin_responses_bypass_page_cache(self):
+        self.middleware(self.request("/projects/?q=gis"))
+        self.middleware(self.request("/projects/?q=gis"))
+        admin_response = self.middleware(self.request("/admin/"))
+
+        self.assertEqual(self.calls, 3)
+        self.assertIn("no-cache", admin_response.headers["Cache-Control"])
 
 
 class ServerErrorTests(SimpleTestCase):

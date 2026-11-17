@@ -87,18 +87,28 @@ Push / Pull Request
    ↓
 GitHub Actions
    ↓
-Docker Build
+Build and test one immutable commit-SHA image
+    ↓
+GitHub Container Registry
    ↓
 main
    ↓
 SSH Deployment
    ↓
-Production Server
+Vultr pulls the tested image
    ↓
-Docker Compose
+Migrate, roll out, and verify health
 ```
 
-The production deployment is automated through GitHub Actions and uses Docker Compose to build and restart the application on the server.
+The production deployment is automated through GitHub Actions. Application
+code is built only once: GitHub tests that exact image, publishes it under the
+commit SHA, and Vultr pulls it. The remote release script applies existing
+migrations, verifies application health, and restores the previous image if the
+new rollout fails.
+
+Anonymous, unfiltered Wagtail pages use a short filesystem cache shared by the
+Gunicorn workers. Wagtail admin, previews, authenticated requests, forms,
+operational endpoints, and filtered/search URLs bypass that cache.
 
 ## Frontend
 

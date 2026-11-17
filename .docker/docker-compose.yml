@@ -2,6 +2,7 @@ name: my-portfolio
 
 services:
   web:
+    image: ${PORTFOLIO_IMAGE:-my-portfolio:latest}
     build:
       context: ..
       dockerfile: .docker/Dockerfile
@@ -26,6 +27,10 @@ services:
 
     environment:
       DJANGO_SETTINGS_MODULE: config.settings.prod
+
+    tmpfs:
+      # Shared by both Gunicorn workers, unlike per-process LocMemCache.
+      - /tmp:size=128m,mode=1777
 
     ports:
       - "127.0.0.1:8007:8000"

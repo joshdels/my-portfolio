@@ -6,8 +6,8 @@
        aria-hidden="true">
         {% with item=project.project_images.first %}
             {% if item %}
-                {% image item.image fill-480x320 as small %}
-                {% image item.image fill-900x600 as large %}
+                {% image item.image width-480 as small %}
+                {% image item.image width-900 as large %}
                 <img src="{{ small.url }}"
                      srcset="{{ small.url }} {{ small.width }}w,
                              {{ large.url }} {{ large.width }}w"
@@ -15,8 +15,8 @@
                             (max-width: 900px) 50vw,
                             33vw"
                      alt=""
-                     width="900"
-                     height="600"
+                     width="{{ large.width }}"
+                     height="{{ large.height }}"
                      loading="lazy"
                      decoding="async">
             {% else %}

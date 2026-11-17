@@ -2,134 +2,118 @@ name: CI/CD My Portfolio
 
 on:
   push:
-    branches:
-      - main
-
+    branches: [main]
   pull_request:
-    branches:
-      - main
+    branches: [main]
 
-# Cancel superseded runs on the same ref to save queue time.
+permissions:
+  contents: read
+
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  group: portfolio-cicd-${{ github.ref }}
+  # Stale pull-request checks are disposable. A production rollout is not.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
-
-  test:
-    name: Test Django
+  build-and-test:
+    name: Build and test production image
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      image: ${{ steps.image.outputs.name }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Native run with a cached uv is far faster than building a Docker
-      # image just to run the SQLite-backed test settings.
-      - name: Set up uv
-        uses: astral-sh/setup-uv@v6
-        with:
-          enable-cache: true
-          cache-dependency-glob: uv.lock
+      - name: Set immutable image name
+        id: image
+        shell: bash
+        run: echo "name=ghcr.io/${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
 
-      - name: Install dependencies
-        run: uv sync --frozen
-
-      - name: Run Django tests
-        run: uv run python manage.py test apps.porfolio apps.services --settings=config.settings.test
-
-      - name: Run Django system checks
-        run: uv run python manage.py check --settings=config.settings.test
-
-  build:
-    name: Build Docker Image
-    runs-on: ubuntu-latest
-
-    needs: test
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Validate release configuration
+        run: |
+          bash -n .docker/deploy.sh
+          cp .env.example .env
+          PORTFOLIO_IMAGE=my-portfolio:validation \
+            docker compose -f .docker/docker-compose.yml config --quiet
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build production Docker image (with layer cache)
+      - name: Build production image once
         uses: docker/build-push-action@v6
         with:
           context: .
           file: .docker/Dockerfile
-          tags: my-portfolio:latest
+          load: true
           push: false
-          load: false
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          tags: ${{ steps.image.outputs.name }}:${{ github.sha }}
+          build-args: |
+            VCS_REF=${{ github.sha }}
+          cache-from: type=gha,scope=portfolio-production
+          cache-to: type=gha,mode=max,scope=portfolio-production
 
-      # This is a reproducibility check. Deployment intentionally rebuilds on
-      # the private server because this workflow does not publish an image.
+      - name: Run Django tests in the production image
+        run: |
+          docker run --rm \
+            -e DJANGO_SETTINGS_MODULE=config.settings.test \
+            ${{ steps.image.outputs.name }}:${{ github.sha }} \
+            python manage.py test apps.porfolio apps.services --settings=config.settings.test
+
+      - name: Run Django system checks in the production image
+        run: |
+          docker run --rm \
+            -e DJANGO_SETTINGS_MODULE=config.settings.test \
+            ${{ steps.image.outputs.name }}:${{ github.sha }} \
+            python manage.py check --settings=config.settings.test
+
+      - name: Log in to GitHub Container Registry
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish tested image
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: docker push "${{ steps.image.outputs.name }}:${{ github.sha }}"
 
   deploy:
-    name: Deploy to Vultr
+    name: Deploy tested image to Vultr
     runs-on: ubuntu-latest
-
-    needs: build
-
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      packages: read
+    environment:
+      name: production
+    needs: build-and-test
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.2.5
-
+        env:
+          DEPLOY_SHA: ${{ github.sha }}
+          PORTFOLIO_IMAGE: ${{ needs.build-and-test.outputs.image }}:${{ github.sha }}
+          GHCR_USER: ${{ github.actor }}
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
-
-          timeout: 30m
-          command_timeout: 30m
-
+          timeout: 120s
+          command_timeout: 25m
+          envs: DEPLOY_SHA,PORTFOLIO_IMAGE,GHCR_USER,GHCR_TOKEN
           script: |
-            set -e
-
-            echo "--- Entering project directory ---"
+            set -Eeuo pipefail
             cd ~/myapps/my-portfolio
-
-            echo "--- Updating Repository ---"
             git fetch origin main
-            git reset --hard origin/main
-
-            echo "--- Building and Starting Containers ---"
-            export DOCKER_BUILDKIT=1
-
-            docker-compose \
-              -f .docker/docker-compose.yml \
-              build web
-
-            echo "--- Applying database migrations ---"
-            docker-compose \
-              -f .docker/docker-compose.yml \
-              run --rm web uv run --no-dev python manage.py migrate --noinput
-
-            docker-compose \
-              -f .docker/docker-compose.yml \
-              up -d \
-              --no-build
-
-            echo "--- Waiting for application health ---"
-            for attempt in $(seq 1 24); do
-              health=$(docker inspect --format='{{.State.Health.Status}}' my-portfolio 2>/dev/null || true)
-              if [ "$health" = "healthy" ]; then
-                break
-              fi
-              if [ "$health" = "unhealthy" ] || [ "$attempt" -eq 24 ]; then
-                docker-compose -f .docker/docker-compose.yml logs --tail=150 web
-                exit 1
-              fi
-              sleep 5
-            done
-
-            echo "--- Cleaning Up Old Docker Images ---"
-            docker image prune -f
-
-            echo "--- My Portfolio Deployment Complete ---"
+            git reset --hard "$DEPLOY_SHA"
+            bash .docker/deploy.sh

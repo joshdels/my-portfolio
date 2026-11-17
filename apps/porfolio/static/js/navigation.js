@@ -19,12 +19,11 @@
   let lastTime = 0;
   let easedScroll = scrollY;
 
-  // Sticky positioning supplies the overlap. Tall sections pin only after
-  // their bottom is visible, so long project lists remain fully readable.
+  // Sticky positioning supplies the overlap. Every incoming panel settles
+  // directly below the navigation instead of sliding underneath it.
   function configure() {
     enabled = cards.length > 1 && !reducedMotion.matches && !keyboardNavigation;
     const headerHeight = header.getBoundingClientRect().height;
-    const heights = cards.map((card) => card.offsetHeight);
 
     cards.forEach((card, index) => {
       if (originalStyles[index] === null) card.removeAttribute("style");
@@ -33,7 +32,7 @@
       if (!enabled) return;
       Object.assign(card.style, {
         position: "sticky",
-        top: `${Math.min(headerHeight, innerHeight - heights[index])}px`,
+        top: `${headerHeight}px`,
         zIndex: String(index + 1),
         boxShadow: index ? "0 -18px 40px rgb(0 0 0 / 10%)" : "none",
       });

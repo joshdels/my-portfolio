@@ -98,7 +98,10 @@ The production application can be built and started with:
 docker compose -f .docker/docker-compose.yml up -d --build
 ```
 
-GitHub Actions automatically builds the Docker image and deploys the `main` branch to the production server.
+GitHub Actions builds and tests one commit-SHA-tagged Docker image, publishes
+that tested image to GitHub Container Registry, and deploys the `main` branch by
+pulling the image on the production server. The server does not rebuild the
+application.
 
 ## Checks
 

@@ -12,6 +12,7 @@ RECAPTCHA_PRIVATE_KEY = "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
 SECRET_KEY = "test-secret-key"
 
 ALLOWED_HOSTS = ["*"]
+WAGTAILADMIN_BASE_URL = "http://testserver"
 
 
 DATABASES = {

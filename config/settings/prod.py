@@ -61,15 +61,20 @@ DATABASES = {
 
 CACHES = {
     "default": {
-        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
-        "LOCATION": "joshdels-public-pages",
+        # Share cached public pages across all Gunicorn workers. LocMemCache
+        # gave each worker a separate cold cache.
+        "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+        "LOCATION": os.environ.get("DJANGO_CACHE_LOCATION", "/tmp/joshdels-cache"),
         "TIMEOUT": 300,
-        "OPTIONS": {"MAX_ENTRIES": 500},
+        "OPTIONS": {
+            "MAX_ENTRIES": 1000,
+            "CULL_FREQUENCY": 3,
+        },
     }
 }
 
-# Public Wagtail pages are cached per worker. This short TTL bounds stale
-# rendered HTML after publishing without adding another infrastructure service.
+# Public Wagtail pages share one cache across workers. This short TTL bounds
+# stale rendered HTML after publishing without adding another network service.
 PUBLIC_PAGE_CACHE_SECONDS = int(os.environ.get("PUBLIC_PAGE_CACHE_SECONDS", "300"))
 
 

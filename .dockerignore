@@ -7,7 +7,12 @@ __pycache__
 *.pyd
 .env
 .env.*
+db.sqlite3
+db.sqlite3-journal
+test.sqlite3
+test.sqlite3-journal
 media/
 staticfiles/
 .vscode/
 .idea/
+graphify-out/

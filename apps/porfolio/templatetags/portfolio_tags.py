@@ -34,7 +34,7 @@ def portfolio_meta(context):
     title = "Joshua De Leon | GIS Developer & Geospatial Developer"
     if is_index:
         title = "GIS Development & Spatial Systems | Joshua De Leon"
-        description = "Explore Joshua De Leon's GIS development work: large parcel datasets, automated map preparation, spatial databases, and browser based mapping tools that help a team work from one system."
+        description = "Explore Joshua De Leon's GIS development work: large spatial datasets, automated map preparation, spatial databases, and browser based mapping tools that help a team work from one system."
     elif is_project:
         title = f"{page.title} | Joshua De Leon"
         description = page.description
@@ -66,7 +66,7 @@ def portfolio_meta(context):
               "homeLocation": {"@type": "Place", "name": "Davao, Philippines",
                                "address": {"@type": "PostalAddress", "addressLocality": "Davao",
                                            "addressCountry": "PH"}},
-              "knowsAbout": ["GIS development", "Geospatial development", "Spatial data systems", "Large spatial datasets", "Parcel data", "Remote sensing", "Cartography", "GIS/CAD workflows", "Spatial databases", "Web mapping", "QGIS", "ArcGIS", "PostGIS", "Python", "Django"],
+              "knowsAbout": ["GIS development", "Geospatial development", "Spatial data systems", "Large spatial datasets", "Parcel data", "Remote sensing", "Cartography", "GIS/CAD workflows", "Spatial databases", "Web mapping", "WebGIS", "QGIS", "ArcGIS", "PostGIS", "Python", "Django"],
               "sameAs": ["https://github.com/joshdels", "https://www.linkedin.com/in/joshua-de-leon-8b0310301/"]},
              {"@type": "WebSite", "@id": home_absolute + "#website", "url": home_absolute,
               "name": "Joshua De Leon — Joshdels", "inLanguage": "en",

@@ -43,8 +43,8 @@ class PortfolioSEOTests(TestCase):
     def test_home_metadata_and_semantics(self):
         response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Joshua De Leon | GIS Engineer &amp; Geospatial Developer")
-        self.assertContains(response, "GIS engineering meets geospatial development.")
+        self.assertContains(response, "Joshua De Leon | GIS Developer &amp; Geospatial Developer")
+        self.assertContains(response, "GIS development that brings spatial data into one system.")
         self.assertContains(response, 'href="/static/assets/favicon.svg"')
         self.assertContains(response, 'href="/services/"')
         self.assertNotIn("energy", response.content.decode().lower())
@@ -56,7 +56,7 @@ class PortfolioSEOTests(TestCase):
         self.assertEqual(len(re.findall(r"<main(?:\s|>)", html)), 1)
         schema = json.loads(re.search(r'<script type="application/ld\+json">(.*?)</script>', html).group(1))
         self.assertEqual(schema["@graph"][0]["name"], "Joshua De Leon")
-        self.assertEqual(schema["@graph"][0]["jobTitle"], "GIS Specialist and Geospatial Developer")
+        self.assertEqual(schema["@graph"][0]["jobTitle"], "GIS Developer and Geospatial Developer")
         self.assertEqual(schema["@graph"][0]["homeLocation"]["name"], "Davao, Philippines")
         self.assertIn("WebGIS", schema["@graph"][0]["knowsAbout"])
         self.assertEqual(schema["@graph"][1]["inLanguage"], "en")
@@ -256,7 +256,7 @@ class PortfolioSEOTests(TestCase):
 
     def test_contact_metadata_is_indexable_and_niche_specific(self):
         response = self.client.get("/guest/contact/")
-        self.assertContains(response, "<title>Contact Joshua De Leon | GIS &amp; Geospatial Development</title>", html=True)
+        self.assertContains(response, "<title>Contact Joshua De Leon | GIS Developer</title>", html=True)
         self.assertContains(response, 'href="http://testserver/guest/contact/"')
         self.assertNotContains(response, 'content="noindex, follow"')
         self.assertContains(response, "application/ld+json")

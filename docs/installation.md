@@ -108,4 +108,15 @@ uv run python manage.py test apps.porfolio apps.services --settings=config.setti
 uv run djlint apps/porfolio/templates apps/services/templates --lint
 ```
 
-`make lint` reformats templates. `make migrate` generates and applies migrations; neither is a read-only check. The Docker startup command also applies existing migrations before collecting static files and starting Gunicorn.
+Enable the version-controlled pre-push checks once after cloning:
+
+```bash
+make install-hooks
+```
+
+Every push will then run `make verify`'s Django checks and full test suite. A
+failure cancels the push; no bypass is performed automatically.
+
+`make lint` reformats templates. `make migrate` generates and applies migrations;
+neither is a read-only check. Production migrations run as an explicit
+deployment step before the new web container starts.

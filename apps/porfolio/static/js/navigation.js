@@ -76,7 +76,12 @@
       });
     }
 
-    const edge = header.getBoundingClientRect().bottom + 1;
+    // Let the incoming section take over just before it reaches the sticky
+    // header, avoiding a brief strip of the previous palette beneath it.
+    const edge = Math.min(
+      innerHeight - 1,
+      header.getBoundingClientRect().bottom + 48,
+    );
     // Later cards paint over earlier ones, so inspect the stack from the top.
     const active = [...sections].reverse().find((section) => {
       const rect = section.getBoundingClientRect();

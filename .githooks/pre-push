@@ -1,0 +1,12 @@
+#!/bin/sh
+set -eu
+
+UV_CACHE_DIR="${UV_CACHE_DIR:-/tmp/joshdels-uv-cache}"
+export UV_CACHE_DIR
+
+echo "pre-push: running Django checks and tests"
+
+uv run python manage.py check --settings=config.settings.test
+uv run python manage.py test apps.porfolio apps.services --settings=config.settings.test
+
+echo "pre-push: all checks passed"

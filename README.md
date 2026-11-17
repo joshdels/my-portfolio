@@ -1,6 +1,6 @@
-# Joshdels — Junior GIS Practitioner Portfolio
+# Joshdels — GIS Engineer & Geospatial Developer Portfolio
 
-Joshua De Leon's GIS career and project portfolio, built with Django and Wagtail. The site positions Joshua as a Philippines-based junior GIS practitioner seeking offshore roles with Australian planning, environmental, surveying, civil, and land-development teams. Small, bounded freelance production tasks are secondary.
+Joshua De Leon's GIS career and project portfolio, built with Django and Wagtail. The site presents Joshua as a Davao, Philippines-based GIS specialist and geospatial developer pursuing remote GIS Engineer and Geospatial Developer roles with Australian and international teams. Small, bounded freelance production tasks are secondary.
 
 ## Career direction
 
@@ -102,3 +102,12 @@ Run the test suite:
 ```bash
 uv run python manage.py test apps.porfolio apps.services --settings=config.settings.test
 ```
+
+Enable the repository-managed pre-push hook once per clone:
+
+```bash
+make install-hooks
+```
+
+The hook blocks a push unless the Django system checks and complete test suite
+pass. Run the same verification manually with `make verify`.

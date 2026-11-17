@@ -2,11 +2,13 @@
 
 ## Public positioning
 
-The default identity is **Joshua De Leon — Junior GIS Practitioner**.
+The default identity is **Joshua De Leon — GIS Specialist and Geospatial
+Developer**, pursuing GIS Engineer and Geospatial Developer roles.
 The primary audience is an Australian planning, environmental,
 surveying, civil, land-development, or geospatial team that can hire a
-Philippines-based offshore junior. Small, bounded paid GIS trials are a
-secondary path.
+Philippines-based remote team member working from Davao (UTC+8).
+Relevant opportunities with teams in other countries are also welcome.
+Small, bounded paid GIS trials are a secondary path.
 
 Do not optimize the site around a broad freelance service catalogue.
 Do not present Joshua as a senior geospatial developer, consultant,
@@ -48,11 +50,11 @@ client details without written permission.
 
 Homepage title:
 
-`Joshua De Leon | Junior GIS Practitioner`
+`Joshua De Leon | GIS Engineer & Geospatial Developer`
 
 Homepage description:
 
-`Joshua De Leon is a Philippines-based junior GIS practitioner seeking offshore work with Australian planning, environmental, surveying, and land-development teams. Review work in mapping, spatial-data preparation, GIS/CAD support, and documented QA.`
+`Joshua De Leon is a Philippines-based GIS specialist and geospatial developer pursuing remote GIS Engineer and Geospatial Developer roles. Explore work in spatial data, GIS/CAD, automation, PostGIS, and WebGIS.`
 
 Use natural project-specific terms such as QGIS, ArcGIS, cartography,
 spatial-data preparation, GIS/CAD support, GDA2020, MGA, WebGIS, or
@@ -63,7 +65,7 @@ Python only where the page contains real evidence.
 Use Search Console and privacy-appropriate analytics to review:
 
 - Australian impressions and visits;
-- searches for Joshua's name and junior GIS terms;
+- searches for Joshua's name, GIS Engineer, and Geospatial Developer terms;
 - project-page engagement;
 - résumé, LinkedIn, GitHub, and contact actions; and
 - qualified role or paid-trial inquiries.

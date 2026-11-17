@@ -30,19 +30,19 @@ def portfolio_meta(context):
     is_index = isinstance(page, ProjectsIndexPage)
     is_contact = request.path == reverse("contact")
     is_services = request.path == reverse("services:index")
-    description = "Joshua De Leon is a GIS practitioner from the Philippines working across mapping, spatial-data preparation, GIS/CAD workflows, automation, and WebGIS. Open to junior opportunities with Australian teams."
-    title = "Joshua De Leon | Junior GIS Practitioner"
+    description = "Joshua De Leon is a Philippines-based GIS specialist and geospatial developer pursuing remote GIS Engineer and Geospatial Developer roles. Explore work in spatial data, GIS/CAD, automation, PostGIS, and WebGIS."
+    title = "Joshua De Leon | GIS Engineer & Geospatial Developer"
     if is_index:
-        title = "GIS Projects & Work Samples | Joshua De Leon"
-        description = "Explore Joshua De Leon's GIS projects, including mapping, spatial-data workflows, automation, and WebGIS."
+        title = "GIS & Geospatial Development Projects | Joshua De Leon"
+        description = "Explore Joshua De Leon's GIS engineering and geospatial development work across spatial data, remote sensing, GIS/CAD, automation, PostGIS, and WebGIS."
     elif is_project:
         title = f"{page.title} | Joshua De Leon"
         description = page.description
     elif is_contact:
-        title = "Contact | Joshua De Leon, Junior GIS Practitioner"
-        description = "Contact Joshua De Leon about junior GIS opportunities with Australian teams, remote collaboration, or a clearly scoped GIS project."
+        title = "Contact Joshua De Leon | GIS & Geospatial Development"
+        description = "Contact Joshua De Leon in Davao, Philippines (UTC+8) about remote GIS engineering, geospatial development, or a clearly scoped GIS project."
     elif is_services:
-        title = "Junior GIS Capabilities | Joshua De Leon"
+        title = "GIS Engineering & Development | Joshua De Leon"
         description = "How Joshua De Leon approaches spatial-data preparation, GIS analysis, map production, GIS/CAD workflows, and project handover."
     elif not is_home:
         title = "Page not found | Joshua De Leon"
@@ -61,20 +61,63 @@ def portfolio_meta(context):
     person_id = home_absolute + "#person"
     graph = [{"@type": "Person", "@id": person_id, "name": "Joshua De Leon",
               "alternateName": "Joshdels", "url": home_absolute,
-              "jobTitle": "Junior GIS Practitioner",
-              "knowsAbout": ["GIS", "Cartography", "Spatial data preparation", "GIS quality assurance", "CAD to GIS support", "WebGIS", "QGIS", "ArcGIS", "PostGIS", "Python", "Django"],
+              "jobTitle": "GIS Specialist and Geospatial Developer",
+              "description": "Davao, Philippines-based GIS specialist and geospatial developer pursuing remote GIS Engineer and Geospatial Developer roles compatible with UTC+8.",
+              "homeLocation": {"@type": "Place", "name": "Davao, Philippines",
+                               "address": {"@type": "PostalAddress", "addressLocality": "Davao",
+                                           "addressCountry": "PH"}},
+              "knowsAbout": ["GIS", "Geospatial development", "Remote sensing", "Cartography", "Spatial data preparation", "GIS quality assurance", "GIS/CAD workflows", "Spatial databases", "WebGIS", "QGIS", "ArcGIS", "PostGIS", "Python", "Django"],
               "sameAs": ["https://github.com/joshdels", "https://www.linkedin.com/in/joshua-de-leon-8b0310301/"]},
              {"@type": "WebSite", "@id": home_absolute + "#website", "url": home_absolute,
-              "name": "Joshua De Leon — Joshdels", "author": {"@id": person_id}},
-             {"@type": "ProfilePage" if is_home else "WebPage", "@id": canonical + "#webpage",
+              "name": "Joshua De Leon — Joshdels", "inLanguage": "en",
+              "author": {"@id": person_id}},
+             {"@type": ("ProfilePage" if is_home else
+                         "CollectionPage" if is_index else "WebPage"),
+              "@id": canonical + "#webpage",
               "url": canonical, "name": title, "description": description,
+              "inLanguage": "en",
               "isPartOf": {"@id": home_absolute + "#website"},
               "about": {"@id": person_id}}]
     if is_home:
         graph[-1]["mainEntity"] = {"@id": person_id}
+    if is_index:
+        listed_projects = [
+            *context.get("selected_projects", []),
+            *context.get("projects", []),
+        ]
+        item_list_id = canonical + "#projects"
+        items = []
+        for position, project in enumerate(listed_projects, start=1):
+            project_url = project.get_full_url(request)
+            project_item = {"@type": "CreativeWork", "@id": project_url + "#project",
+                            "url": project_url, "name": project.title,
+                            "description": project.description,
+                            "creator": {"@id": person_id}}
+            if project.date:
+                project_item["dateCreated"] = project.date.isoformat()
+            items.append({"@type": "ListItem", "position": position,
+                          "item": project_item})
+        graph[-1]["mainEntity"] = {"@id": item_list_id}
+        graph.append({"@type": "ItemList", "@id": item_list_id,
+                      "name": "Joshua De Leon's GIS and geospatial projects",
+                      "numberOfItems": len(items), "itemListElement": items})
     if is_project:
-        graph.append({"@type": "CreativeWork", "name": page.title, "url": canonical,
-                      "description": description, "image": image_url, "creator": {"@id": person_id}})
+        work_id = canonical + "#project"
+        work = {"@type": "CreativeWork", "@id": work_id, "name": page.title,
+                "url": canonical, "description": description, "image": image_url,
+                "creator": {"@id": person_id}}
+        if page.date:
+            work["dateCreated"] = page.date.isoformat()
+        project_types = list(page.project_types.values_list("name", flat=True))
+        tools = list(page.tools.values_list("name", flat=True))
+        if project_types:
+            work["genre"] = project_types
+        if tools:
+            work["keywords"] = tools
+        if page.location:
+            work["spatialCoverage"] = page.location
+        graph[-1]["mainEntity"] = {"@id": work_id}
+        graph.append(work)
     # Escape HTML delimiters before embedding JSON in a script element.
     schema = json.dumps({"@context": "https://schema.org", "@graph": graph}, ensure_ascii=True)
     schema = schema.replace("&", "\\u0026").replace("<", "\\u003c").replace(">", "\\u003e")

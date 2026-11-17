@@ -73,8 +73,7 @@
 }
 
 @media (max-width: 600px) {
-  .site-nav a[data-section="about"],
-  .site-nav a[data-section="projects"] {
+  .site-nav a[data-section="about"] {
     display: none;
   }
 

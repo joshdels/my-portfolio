@@ -24,7 +24,13 @@ def custom_500(request):
     return HttpResponse(get_template("500.html").render({}), status=500)
 
 
+def health(request):
+    """Dependency-free liveness endpoint for Docker and the reverse proxy."""
+    return HttpResponse("ok", content_type="text/plain")
+
+
 urlpatterns = [
+    path("healthz/", health, name="health"),
     path("services/", include("apps.services.urls")),
     path("robots.txt", robots, name="robots"),
     path("sitemap.xml", sitemap, {"sitemaps": {"pages": Sitemap, "contact": ContactSitemap}}, name="sitemap"),

@@ -56,6 +56,11 @@ class ServicesTests(TestCase):
         self.assertTemplateUsed(response, "services/index.html")
         self.assertTemplateUsed(response, "porfolio/base.html")
 
+    def test_health_endpoint_is_dependency_free(self):
+        response = self.client.get("/healthz/")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.content, b"ok")
+
     def test_query_parameters_do_not_change_placeholder_canonical(self):
         response = self.client.get("/services/?q=parcels&type=1")
         self.assertContains(response, '<link rel="canonical" href="http://testserver/services/">', html=True)

@@ -1,6 +1,7 @@
 import json
 import re
 from tempfile import TemporaryDirectory
+from unittest.mock import PropertyMock, patch
 from xml.etree import ElementTree
 
 from django.conf import settings
@@ -8,6 +9,7 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.cache import cache
 from django.core.management import call_command
 from django.test import RequestFactory, TestCase
+from storages.backends.s3 import S3Storage
 from wagtail.models import Page, PageViewRestriction, Site
 
 from apps.porfolio.models import HomePage, Project, ProjectsIndexPage
@@ -41,8 +43,9 @@ class PortfolioSEOTests(TestCase):
     def test_home_metadata_and_semantics(self):
         response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Joshua De Leon | Junior GIS Practitioner")
-        self.assertContains(response, "I turn spatial data into clear, useful maps.")
+        self.assertContains(response, "Joshua De Leon | GIS Engineer &amp; Geospatial Developer")
+        self.assertContains(response, "GIS engineering meets geospatial development.")
+        self.assertContains(response, 'href="/static/assets/favicon.svg"')
         self.assertContains(response, 'href="/services/"')
         self.assertNotIn("energy", response.content.decode().lower())
         self.assertContains(response, 'href="/work/"')
@@ -53,7 +56,11 @@ class PortfolioSEOTests(TestCase):
         self.assertEqual(len(re.findall(r"<main(?:\s|>)", html)), 1)
         schema = json.loads(re.search(r'<script type="application/ld\+json">(.*?)</script>', html).group(1))
         self.assertEqual(schema["@graph"][0]["name"], "Joshua De Leon")
+        self.assertEqual(schema["@graph"][0]["jobTitle"], "GIS Specialist and Geospatial Developer")
+        self.assertEqual(schema["@graph"][0]["homeLocation"]["name"], "Davao, Philippines")
         self.assertIn("WebGIS", schema["@graph"][0]["knowsAbout"])
+        self.assertEqual(schema["@graph"][1]["inLanguage"], "en")
+        self.assertEqual(schema["@graph"][2]["inLanguage"], "en")
         self.assertNotIn('name="robots" content="noindex', html)
 
     def test_project_uses_editor_seo_fields(self):
@@ -62,6 +69,48 @@ class PortfolioSEOTests(TestCase):
         self.assertContains(response, 'content="A Python spatial data workflow for infrastructure."')
         self.assertContains(response, 'href="http://testserver/work/spatial-pipeline/"')
         self.assertNotContains(response, "css/sections/hero.css")
+
+    def test_project_index_exposes_an_indexable_project_collection(self):
+        response = self.client.get("/work/")
+        html = response.content.decode()
+        self.assertNotIn('name="robots" content="noindex', html)
+        schema = json.loads(re.search(
+            r'<script type="application/ld\+json">(.*?)</script>', html,
+        ).group(1))
+        collection = next(
+            item for item in schema["@graph"] if item["@type"] == "CollectionPage"
+        )
+        item_list = next(
+            item for item in schema["@graph"] if item["@type"] == "ItemList"
+        )
+        self.assertEqual(collection["mainEntity"]["@id"], item_list["@id"])
+        self.assertEqual(item_list["numberOfItems"], 1)
+        self.assertEqual(
+            item_list["itemListElement"][0]["item"]["name"],
+            self.project.title,
+        )
+
+    def test_public_s3_url_does_not_initialize_boto_connection(self):
+        storage = S3Storage(
+            access_key="test",
+            secret_key="test",
+            bucket_name="portfolio",
+            endpoint_url="https://s3.example.com",
+            custom_domain="s3.example.com/portfolio",
+            location="media",
+            querystring_auth=False,
+        )
+
+        with patch.object(
+            S3Storage,
+            "connection",
+            new_callable=PropertyMock,
+        ) as connection:
+            self.assertEqual(
+                storage.url("projects/map.webp"),
+                "https://s3.example.com/portfolio/media/projects/map.webp",
+            )
+            connection.assert_not_called()
 
     def test_public_pages_with_production_static_manifest(self):
         # Collect real assets so deleted or renamed files cannot be hidden by
@@ -207,7 +256,7 @@ class PortfolioSEOTests(TestCase):
 
     def test_contact_metadata_is_indexable_and_niche_specific(self):
         response = self.client.get("/guest/contact/")
-        self.assertContains(response, "<title>Contact | Joshua De Leon, Junior GIS Practitioner</title>", html=True)
+        self.assertContains(response, "<title>Contact Joshua De Leon | GIS &amp; Geospatial Development</title>", html=True)
         self.assertContains(response, 'href="http://testserver/guest/contact/"')
         self.assertNotContains(response, 'content="noindex, follow"')
         self.assertContains(response, "application/ld+json")

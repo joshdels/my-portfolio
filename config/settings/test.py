@@ -1,11 +1,13 @@
-import os
-
 from .base import *
 
 DEBUG = True
 
 # Let reCAPTCHA fields validate with the value "PASSED" during tests.
-os.environ["RECAPTCHA_TESTING"] = "True"
+RECAPTCHA_TESTING = True
+# base.py loads .env, so force the documented Google test keys here instead of
+# allowing local production keys to make unit tests contact Google's API.
+RECAPTCHA_PUBLIC_KEY = "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+RECAPTCHA_PRIVATE_KEY = "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
 
 SECRET_KEY = "test-secret-key"
 

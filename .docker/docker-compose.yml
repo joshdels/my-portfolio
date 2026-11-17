@@ -19,8 +19,9 @@ services:
       test: ["CMD", "python", "-c", "import urllib.request; request = urllib.request.Request('http://127.0.0.1:8000/healthz/', headers={'X-Forwarded-Proto': 'https'}); urllib.request.urlopen(request, timeout=3)"]
       interval: 15s
       timeout: 5s
-      retries: 4
-      start_period: 20s
+      retries: 6
+      # Cold Wagtail boot takes ~10-15s; keep early probes from counting.
+      start_period: 45s
 
     env_file:
       - ../.env.prod

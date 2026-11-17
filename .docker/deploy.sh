@@ -48,21 +48,25 @@ echo "Applying existing database migrations."
 rollout_started=true
 "${compose[@]}" up -d --no-build --remove-orphans
 
-health="unknown"
-for attempt in $(seq 1 36); do
-  health="$(docker inspect --format '{{.State.Health.Status}}' my-portfolio 2>/dev/null || true)"
+echo "Waiting for the new container to report healthy."
+# Docker can briefly mark a cold container unhealthy before it settles, so wait
+# out the whole window instead of aborting on the first transient failure.
+health="starting"
+deadline=$(( $(date +%s) + 240 ))
+while [ "$(date +%s)" -lt "$deadline" ]; do
+  health="$(docker inspect --format '{{.State.Health.Status}}' my-portfolio 2>/dev/null || echo none)"
   if [ "$health" = "healthy" ]; then
     break
-  fi
-  if [ "$health" = "unhealthy" ]; then
-    "${compose[@]}" logs --tail=150 web
-    exit 1
   fi
   sleep 5
 done
 
 if [ "$health" != "healthy" ]; then
-  "${compose[@]}" logs --tail=150 web
+  echo "Container never became healthy (last status: ${health}). Probe detail:"
+  # The probe's own exit code and stdout/stderr live here — this is the reason.
+  docker inspect --format '{{json .State.Health}}' my-portfolio 2>/dev/null || true
+  echo "--- recent application logs ---"
+  "${compose[@]}" logs --tail=150 web || true
   exit 1
 fi
 

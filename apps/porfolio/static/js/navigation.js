@@ -24,17 +24,25 @@
   function configure() {
     enabled = cards.length > 1 && !reducedMotion.matches && !keyboardNavigation;
     const headerHeight = header.getBoundingClientRect().height;
+    // A section taller than the space below the header cannot be pinned without
+    // trapping its lower content, so it scrolls normally while still stacking.
+    const available = innerHeight - headerHeight;
 
+    // Pin the leading run of viewport-sized sections. The first section that
+    // is too tall to pin — and everything after it — scrolls normally, so a
+    // following panel can never cover a tall section's lower content.
+    let pinning = true;
     cards.forEach((card, index) => {
       if (originalStyles[index] === null) card.removeAttribute("style");
       else card.setAttribute("style", originalStyles[index]);
       offsets[index] = 0;
       if (!enabled) return;
+      if (card.offsetHeight > available) pinning = false;
       Object.assign(card.style, {
-        position: "sticky",
-        top: `${headerHeight}px`,
+        position: pinning ? "sticky" : "relative",
+        top: pinning ? `${headerHeight}px` : "",
         zIndex: String(index + 1),
-        boxShadow: index ? "0 -18px 40px rgb(0 0 0 / 10%)" : "none",
+        boxShadow: pinning && index ? "0 -18px 40px rgb(0 0 0 / 10%)" : "none",
       });
     });
 
@@ -62,6 +70,13 @@
         pin: parseFloat(card.style.top),
       }));
       cards.forEach((card, index) => {
+        // Only pinned (sticky) cards have a numeric resting position; cards
+        // that scroll normally are left untouched.
+        if (Number.isNaN(positions[index].pin)) {
+          offsets[index] = 0;
+          card.style.transform = "none";
+          return;
+        }
         const distance = Math.max(
           0,
           positions[index].top - positions[index].pin,
@@ -75,11 +90,11 @@
       });
     }
 
-    // Let the incoming section take over just before it reaches the sticky
-    // header, avoiding a brief strip of the previous palette beneath it.
+    // Switch exactly when a section meets the navbar's bottom edge, so the
+    // palette changes on contact rather than approximating it early.
     const edge = Math.min(
       innerHeight - 1,
-      header.getBoundingClientRect().bottom + 48,
+      header.getBoundingClientRect().bottom,
     );
     // Later cards paint over earlier ones, so inspect the stack from the top.
     const active = [...sections].reverse().find((section) => {

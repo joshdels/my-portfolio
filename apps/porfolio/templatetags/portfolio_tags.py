@@ -30,20 +30,20 @@ def portfolio_meta(context):
     is_index = isinstance(page, ProjectsIndexPage)
     is_contact = request.path == reverse("contact")
     is_services = request.path == reverse("services:index")
-    description = "Joshua De Leon is a Philippines-based GIS specialist and geospatial developer pursuing remote GIS Engineer and Geospatial Developer roles. Explore work in spatial data, GIS/CAD, automation, PostGIS, and WebGIS."
-    title = "Joshua De Leon | GIS Engineer & Geospatial Developer"
+    description = "Joshua De Leon is a GIS developer in the Philippines who helps firms and teams bring their spatial data into one organised system that handles large datasets and gives people maps and tools they can use. Pursuing remote GIS Developer and Geospatial Developer roles."
+    title = "Joshua De Leon | GIS Developer & Geospatial Developer"
     if is_index:
-        title = "GIS & Geospatial Development Projects | Joshua De Leon"
-        description = "Explore Joshua De Leon's GIS engineering and geospatial development work across spatial data, remote sensing, GIS/CAD, automation, PostGIS, and WebGIS."
+        title = "GIS Development & Spatial Systems | Joshua De Leon"
+        description = "Explore Joshua De Leon's GIS development work: large parcel datasets, automated map preparation, spatial databases, and browser based mapping tools that help a team work from one system."
     elif is_project:
         title = f"{page.title} | Joshua De Leon"
         description = page.description
     elif is_contact:
-        title = "Contact Joshua De Leon | GIS & Geospatial Development"
-        description = "Contact Joshua De Leon in Davao, Philippines (UTC+8) about remote GIS engineering, geospatial development, or a clearly scoped GIS project."
+        title = "Contact Joshua De Leon | GIS Developer"
+        description = "Contact Joshua De Leon in Davao, Philippines (UTC+8) about a remote GIS Developer role, geospatial development, or a clearly scoped GIS project."
     elif is_services:
-        title = "GIS Engineering & Development | Joshua De Leon"
-        description = "How Joshua De Leon approaches spatial-data preparation, GIS analysis, map production, GIS/CAD workflows, and project handover."
+        title = "GIS Development & Services | Joshua De Leon"
+        description = "How Joshua De Leon helps a team work from one spatial system: large datasets, automated map work, databases, and browser based mapping tools."
     elif not is_home:
         title = "Page not found | Joshua De Leon"
         description = "This page could not be found. Explore Joshua De Leon's geospatial and GIS projects or get in touch about geospatial roles and projects."
@@ -61,12 +61,12 @@ def portfolio_meta(context):
     person_id = home_absolute + "#person"
     graph = [{"@type": "Person", "@id": person_id, "name": "Joshua De Leon",
               "alternateName": "Joshdels", "url": home_absolute,
-              "jobTitle": "GIS Specialist and Geospatial Developer",
-              "description": "Davao, Philippines-based GIS specialist and geospatial developer pursuing remote GIS Engineer and Geospatial Developer roles compatible with UTC+8.",
+              "jobTitle": "GIS Developer and Geospatial Developer",
+              "description": "GIS developer in Davao, Philippines who helps firms and teams bring their spatial data into one system. Pursuing remote GIS Developer and Geospatial Developer roles compatible with UTC+8.",
               "homeLocation": {"@type": "Place", "name": "Davao, Philippines",
                                "address": {"@type": "PostalAddress", "addressLocality": "Davao",
                                            "addressCountry": "PH"}},
-              "knowsAbout": ["GIS", "Geospatial development", "Remote sensing", "Cartography", "Spatial data preparation", "GIS quality assurance", "GIS/CAD workflows", "Spatial databases", "WebGIS", "QGIS", "ArcGIS", "PostGIS", "Python", "Django"],
+              "knowsAbout": ["GIS development", "Geospatial development", "Spatial data systems", "Large spatial datasets", "Parcel data", "Remote sensing", "Cartography", "GIS/CAD workflows", "Spatial databases", "Web mapping", "QGIS", "ArcGIS", "PostGIS", "Python", "Django"],
               "sameAs": ["https://github.com/joshdels", "https://www.linkedin.com/in/joshua-de-leon-8b0310301/"]},
              {"@type": "WebSite", "@id": home_absolute + "#website", "url": home_absolute,
               "name": "Joshua De Leon — Joshdels", "inLanguage": "en",

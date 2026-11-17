@@ -37,7 +37,7 @@ jobs:
       - name: Validate release configuration
         run: |
           bash -n .docker/deploy.sh
-          cp .env.example .env
+          cp .env.example .env.prod
           PORTFOLIO_IMAGE=my-portfolio:validation \
             docker compose -f .docker/docker-compose.yml config --quiet
 

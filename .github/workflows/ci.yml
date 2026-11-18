@@ -109,7 +109,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           timeout: 120s
-          command_timeout: 25m
+          command_timeout: 40m
           envs: DEPLOY_SHA,PORTFOLIO_IMAGE,GHCR_USER,GHCR_TOKEN
           script: |
             set -Eeuo pipefail

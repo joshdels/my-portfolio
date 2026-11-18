@@ -8,7 +8,10 @@ from .forms import ContactInquiryForm
 
 def contact(request):
     if request.method == "POST":
-        form = ContactInquiryForm(request.POST)
+        form = ContactInquiryForm(
+            request.POST,
+            remote_ip=request.META.get("REMOTE_ADDR"),
+        )
 
         if form.is_valid():
             inquiry = form.save()
@@ -58,5 +61,9 @@ def contact(request):
     return render(
         request,
         "porfolio/contact.html",
-        {"form": form},
+        {
+            "form": form,
+            "turnstile_enabled": settings.TURNSTILE_ENABLED,
+            "turnstile_site_key": settings.TURNSTILE_SITE_KEY,
+        },
     )

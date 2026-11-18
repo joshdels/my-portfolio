@@ -16,12 +16,13 @@ services:
     stop_grace_period: 35s
 
     healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; request = urllib.request.Request('http://127.0.0.1:8000/healthz/', headers={'X-Forwarded-Proto': 'https'}); urllib.request.urlopen(request, timeout=3)"]
+      test: ["CMD", "python", "-c", "import urllib.request; request = urllib.request.Request('http://127.0.0.1:8000/healthz/', headers={'X-Forwarded-Proto': 'https'}); response = urllib.request.urlopen(request, timeout=8); raise SystemExit(0 if response.read() == b'ok' else 1)"]
       interval: 15s
-      timeout: 5s
-      retries: 6
-      # Cold Wagtail boot takes ~10-15s; keep early probes from counting.
-      start_period: 45s
+      # Starting the Python probe can itself be slow on the shared VPS. Keep
+      # Docker's deadline above the request timeout so failures stay diagnostic.
+      timeout: 15s
+      retries: 8
+      start_period: 60s
 
     env_file:
       - ../.env.prod

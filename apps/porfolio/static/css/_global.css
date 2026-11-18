@@ -83,19 +83,8 @@ a {
   top: 1rem;
 }
 
-.home-scroll {
-  scroll-snap-type: y proximity;
-}
-
 .home-scroll [data-nav-theme] {
-  scroll-snap-align: start;
   scroll-margin-top: 0;
-}
-
-@media (max-width: 768px), (prefers-reduced-motion: reduce) {
-  .home-scroll {
-    scroll-snap-type: none;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

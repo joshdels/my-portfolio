@@ -57,14 +57,22 @@
                         <div class="form-error">{{ form.inquiry.errors }}</div>
                     {% endif %}
                 </div>
-                <div class="form-group">
-                    {{ form.captcha }}
-                    {% if form.captcha.errors %}
-                        <div class="form-error">{{ form.captcha.errors }}</div>
-                    {% endif %}
-                </div>
+                {% if turnstile_enabled %}
+                    <div class="form-group">
+                        <div class="cf-turnstile"
+                             data-sitekey="{{ turnstile_site_key }}"
+                             data-theme="auto"></div>
+                    </div>
+                {% endif %}
                 <button type="submit" class="btn btn-primary">Send Message</button>
             </form>
         </div>
     </section>
 {% endblock content %}
+{% block scripts %}
+    {% if turnstile_enabled %}
+        <script src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+                async
+                defer></script>
+    {% endif %}
+{% endblock scripts %}

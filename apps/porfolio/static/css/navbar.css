@@ -15,6 +15,11 @@
   color: var(--color-text-light);
 }
 
+.site-header[data-theme="deep"] {
+  background: var(--color-green-deep);
+  color: var(--color-text-light);
+}
+
 .site-header[data-theme="warm"] {
   background: var(--color-orange);
   color: var(--color-green-dark);
@@ -73,7 +78,7 @@
 }
 
 @media (max-width: 600px) {
-  .site-nav a[data-section="about"] {
+  .site-nav .nav-links > a:not(.btn) {
     display: none;
   }
 

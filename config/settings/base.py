@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     "django.contrib.postgres",
     # Third-party
     "storages",
-    "django_recaptcha",
 ]
 
 
@@ -119,15 +118,11 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 WAGTAIL_SITE_NAME = "Joshdels — Junior GIS Practitioner"
 
 
-# Google reCAPTCHA v2 ("I'm not a robot" checkbox) on the contact form.
-# Set real keys in .env for production; the Google test keys below let local
-# development pass without a configured domain.
-RECAPTCHA_PUBLIC_KEY = os.environ.get(
-    "RECAPTCHA_PUBLIC_KEY", "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
-)
-RECAPTCHA_PRIVATE_KEY = os.environ.get(
-    "RECAPTCHA_PRIVATE_KEY", "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
-)
-# Silence the "test keys" warning only while the public (test) key is in use.
-if RECAPTCHA_PUBLIC_KEY == "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI":
-    SILENCED_SYSTEM_CHECKS = ["django_recaptcha.recaptcha_test_key_error"]
+# Cloudflare Turnstile protection for the public contact form. Keep it disabled
+# until the production widget keys have been configured.
+TURNSTILE_ENABLED = os.environ.get(
+    "TURNSTILE_ENABLED", "false"
+).lower() in {"1", "true", "yes", "on"}
+TURNSTILE_SITE_KEY = os.environ.get("TURNSTILE_SITE_KEY", "")
+TURNSTILE_SECRET_KEY = os.environ.get("TURNSTILE_SECRET_KEY", "")
+TURNSTILE_VERIFY_TIMEOUT = int(os.environ.get("TURNSTILE_VERIFY_TIMEOUT", "5"))

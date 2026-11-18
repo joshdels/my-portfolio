@@ -52,7 +52,7 @@ echo "Waiting for the new container to report healthy."
 # Docker can briefly mark a cold container unhealthy before it settles, so wait
 # out the whole window instead of aborting on the first transient failure.
 health="starting"
-deadline=$(( $(date +%s) + 240 ))
+deadline=$(( $(date +%s) + 300 ))
 while [ "$(date +%s)" -lt "$deadline" ]; do
   health="$(docker inspect --format '{{.State.Health.Status}}' my-portfolio 2>/dev/null || echo none)"
   if [ "$health" = "healthy" ]; then
@@ -65,6 +65,11 @@ if [ "$health" != "healthy" ]; then
   echo "Container never became healthy (last status: ${health}). Probe detail:"
   # The probe's own exit code and stdout/stderr live here — this is the reason.
   docker inspect --format '{{json .State.Health}}' my-portfolio 2>/dev/null || true
+  echo "--- container resource snapshot ---"
+  docker stats --no-stream my-portfolio 2>/dev/null || true
+  echo "--- host memory and storage snapshot ---"
+  free -h 2>/dev/null || true
+  df -h / /var/lib/docker 2>/dev/null || true
   echo "--- recent application logs ---"
   "${compose[@]}" logs --tail=150 web || true
   exit 1

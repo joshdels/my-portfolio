@@ -30,8 +30,8 @@ def portfolio_meta(context):
     is_index = isinstance(page, ProjectsIndexPage)
     is_contact = request.path == reverse("contact")
     is_services = request.path == reverse("services:index")
-    description = "Joshua De Leon is a GIS developer in the Philippines who helps firms and teams bring their spatial data into one organised system that handles large datasets and gives people maps and tools they can use. Pursuing remote GIS Developer and Geospatial Developer roles."
-    title = "Joshua De Leon | GIS Developer & Geospatial Developer"
+    description = "Joshua De Leon is a GIS practitioner in Davao, Philippines who helps firms and teams organise spatial data, build GIS databases, and create mapping systems for everyday work. Open to remote GIS roles and clearly scoped offshore projects."
+    title = "Joshua De Leon | GIS Practitioner & Spatial Systems"
     if is_index:
         title = "GIS Development & Spatial Systems | Joshua De Leon"
         description = "Explore Joshua De Leon's GIS development work: large spatial datasets, automated map preparation, spatial databases, and browser based mapping tools that help a team work from one system."
@@ -61,8 +61,8 @@ def portfolio_meta(context):
     person_id = home_absolute + "#person"
     graph = [{"@type": "Person", "@id": person_id, "name": "Joshua De Leon",
               "alternateName": "Joshdels", "url": home_absolute,
-              "jobTitle": "GIS Developer and Geospatial Developer",
-              "description": "GIS developer in Davao, Philippines who helps firms and teams bring their spatial data into one system. Pursuing remote GIS Developer and Geospatial Developer roles compatible with UTC+8.",
+              "jobTitle": "GIS Practitioner",
+              "description": "GIS practitioner in Davao, Philippines who helps firms and teams organise spatial data, build GIS databases, and create mapping systems. Open to remote GIS roles and clearly scoped offshore projects.",
               "homeLocation": {"@type": "Place", "name": "Davao, Philippines",
                                "address": {"@type": "PostalAddress", "addressLocality": "Davao",
                                            "addressCountry": "PH"}},
